@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>文章编辑</title>
+    <meta name="referrer" content="never">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../lib/layui-v2.5.7/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../lib/prism/prism.css">
+    <link rel="stylesheet" type="text/css" href="../css/codepen.min.css">
+    <link rel="stylesheet" href="../css/articleEditor.css">
+    <script src="../lib/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="../lib/tinymce/jquery.tinymce.min.js"></script>
+    <script src="../lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+    <script src="../lib/axios/axios.min.js"></script>
+    <script src="../lib/vue-module/vue.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+    <script src="../js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+    <script src="../lib/layui-v2.5.7/layui.js"></script>
+    <script src="../lib/prism/prism.js"></script>
+    <script src="../lib/xm-select/xm-select.js"></script>
+    <link rel="stylesheet" href="../lib/editormd/css/editormd.css"/>
+    <script src="../lib/editormd/editormd.min.js"></script>
+    <script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6"></script>
+</head>
+<body>
+<div class="main" id="pjax">
+    <main id="mainContent" class="content">
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文章标题</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title" id="title" lay-verify="title" autocomplete="off"
+                                       placeholder="请输入标题"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">文章内容</label>
+                            <div id="main-editor" class="layui-input-block">
+                                <textarea id="paste-from-word"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">发表类型</label>
+                            <div class="layui-input-block">
+                                <div id="postTypeSelect"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">评论类型</label>
+                            <div class="layui-input-block">
+                                <div id="commentStatusSelect"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">优先级</label>
+                            <div class="layui-input-block">
+                                <div id="prioritySelect"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">分类</label>
+                            <div class="layui-input-block">
+                                <div id="classifySelect"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item" pane>
+                            <label class="layui-form-label">标签</label>
+                            <div class="layui-input-block">
+                                <div id="tagsSelect"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="sendArea">
+                        <button class="layui-btn" id="draftArticleInfo" v-on:click="draftArticle()"><i
+                                class="layui-icon layui-icon-list"></i>保存草稿
+                        </button>
+                        <button class="layui-btn" id="addArticleInfo" v-on:click="addArticle()"><i
+                                class="layui-icon layui-icon-release"></i>发布文章
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+<script>
+    const vueObject = new Vue({
+        el: "#mainContent",
+        data: {
+            article: {
+                "articleStatus": 0,
+                "classifyId": 0,
+                "classifyName": "",
+                "commentStatus": 0,
+                "content": "",
+                "contentType": 0,
+                "createTime": "",
+                "id": 0,
+                "postType": 0,
+                "priority": 0,
+                "reviewImgUrl": "",
+                "snippet": "",
+                "sumComment": 0,
+                "supportCount": 0,
+                "tagList": [
+                    {
+                        "createTime": "",
+                        "id": 0,
+                        "tagName": "",
+                        "updateTime": ""
+                    }
+                ],
+                "tagIdList": [],
+                "title": "",
+                "updateTime": "",
+                "viewCount": 0
+            },
+            editType: 0,
+            markdownEditor: null,
+            postTypeSelect: null,
+            prioritySelect: null,
+            commentStatusSelect: null,
+            tagsDiv: null,
+            classifyDiv: null,
+        },
+        methods: {
+            draftArticle() {
+                this.article.articleStatus = 1;
+                if (!this.builtArticle()) {
+                    return;
+                }
+                this.article.articleStatus = 1;
+                let loading = layer.msg('保存草稿中...', {icon: 16, shade: 0.3, time: 10000});
+                axiosPostFunction('/api/article/authApi/insert', this.article, true).then((response) => {
+                    if (response) {
+                        layer.close(loading);
+                        layer.alert('保存草稿成功', {icon: 1, skin: 'layui-layer-molv', closeBtn: 0, anim: 4}, function () {
+                            layer.closeAll();
+                            parent.layer.closeAll();
+                            /*self.location = "./articleTable.html";*/
+                        });
+                    }
+                }).catch(function (err) {
+                    layer.close(loading);
+                    layer.alert('保存草稿失败' + err, {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                });
+            },
+            builtArticle() {
+                let title = $('#title').val();
+                if (title === '') {
+                    layer.alert('标题不能为空', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                    return false;
+                }
+                this.article.title = title;
+                let classArr = this.classifyDiv.getValue('value');
+                if (classArr.length === 0) {
+                    layer.alert('分类未选择', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                    return false;
+                }
+                this.article.classifyId = classArr[0];
+                let content;
+                if (this.editType === 0) {
+                    content = tinymce.activeEditor.getContent();
+                } else {
+                    content = this.markdownEditor.getMarkdown();
+                }
+                this.article.content = content;
+
+                let tempTagIdList = this.tagsDiv.getValue();
+                if (tempTagIdList.length === 0) {
+                    layer.alert('标签至少得有一个', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                    return false;
+                }
+                this.article.tagIdList = [];
+                console.log(tempTagIdList);
+                for (let i = 0; i < tempTagIdList.length; i++) {
+                    let item = tempTagIdList[i];
+                    this.article.tagIdList.push(item.id);
+                }
+                console.log(this.article.tagIdList);
+                let postTypeArr = this.postTypeSelect.getValue('value');
+                if (postTypeArr.length === 0) {
+                    layer.alert('发表类型未选择', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                    return false;
+                }
+                this.article.postType = postTypeArr[0];
+
+                let priorityArr = this.prioritySelect.getValue('value');
+                if (priorityArr.length === 0) {
+                    layer.alert('优先级未选择', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                    return false;
+                }
+                this.article.priority = priorityArr[0];
+
+                let commentStatusArr = this.commentStatusSelect.getValue('value');
+                if (commentStatusArr.length === 0) {
+                    layer.alert('评论状态未选择', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                    return false;
+                }
+                this.article.commentStatus = commentStatusArr[0];
+
+                return true;
+            },
+            addArticle() {
+                if (!this.builtArticle()) {
+                    return;
+                }
+                this.article.articleStatus = 0;
+                let loading = layer.msg('添加文章中...', {icon: 16, shade: 0.3, time: 10000});
+                axiosPostFunction('/api/article/authApi/insert', this.article, true).then((response) => {
+                    if (response) {
+                        layer.close(loading);
+                        layer.alert('发表成功', {icon: 1, skin: 'layui-layer-molv', closeBtn: 0, anim: 4}, function () {
+                            layer.closeAll();
+                            parent.layer.closeAll();
+                            /*self.location = "./articleTable.html";*/
+                        });
+                    }
+                }).catch(function (err) {
+                    layer.close(loading);
+                    layer.alert('发表失败' + err, {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                });
+            },
+            exit: function () {
+                layer.confirm('是否退出编辑', {
+                    btn: ['是', '否']
+                }, function () {
+                    layer.closeAll();
+                    self.location = "./articleTable.html";
+                }, function () {
+
+                });
+            },
+        },
+        mounted() {
+            this.editType = parseInt(getParams("editType"), 10);
+            if (this.editType === 0) {
+                this.article.contentType = 0;
+                tinymce.init({
+                    selector: 'textarea#paste-from-word',
+                    height: 400,
+                    menubar: true,
+                    language: 'zh_CN',
+                    codesample_languages: [
+                        {text: 'HTML/XML', value: 'markup'},
+                        {text: 'JavaScript', value: 'javascript'},
+                        {text: 'CSS', value: 'css'},
+                        {text: 'PHP', value: 'php'},
+                        {text: 'Ruby', value: 'ruby'},
+                        {text: 'Python', value: 'python'},
+                        {text: 'Java', value: 'java'},
+                        {text: 'C', value: 'c'},
+                        {text: 'C#', value: 'csharp'},
+                        {text: 'C++', value: 'cpp'}
+                    ],
+                    textpattern_patterns: [
+                        {start: '*', end: '*', format: 'italic'},
+                        {start: '**', end: '**', format: 'bold'},
+                        {start: '#', format: 'h1'},
+                        {start: '##', format: 'h2'},
+                        {start: '###', format: 'h3'},
+                        {start: '####', format: 'h4'},
+                        {start: '#####', format: 'h5'},
+                        {start: '######', format: 'h6'},
+                        {start: '1. ', cmd: 'InsertOrderedList'},
+                        {start: '* ', cmd: 'InsertUnorderedList'},
+                        {start: '- ', cmd: 'InsertUnorderedList'}
+                    ],
+                    codesample_content_css: '../lib/prism/prism.css',
+                    plugins: [
+                        'charmap emoticons quickbars wordcount pagebreak textpattern advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks fullscreen indent2em importword layout letterspacing',
+                        'insertdatetime media table code codesample toc autosave kityformula-editor'
+                    ],
+                    toolbar: 'undo redo | bold italic indent2em letterspacing|importword kityformula-editor layout| alignleft aligncenter alignright alignjustify | bullist numlist |image code media codesample toc restoredraft pagebreak wordcount emoticons charmap searchreplace',
+                    powerpaste_allow_local_images: true,
+                    autosave_ask_before_unload: true,
+                    powerpaste_word_import: 'prompt',
+                    powerpaste_html_import: 'prompt',
+                    paste_data_images: true,
+                    images_upload_credentials: true,
+                    images_upload_handler: function (blobInfo, success, failure) {
+                        let file = blobInfo.blob();
+                        axiosUploadFile("/uploads/upload/authApi/image", file, file.name).then(function (response) {
+                            if (response) {
+                                success(response);
+                            } else {
+                                failure("error upload Image!");
+                            }
+                        }).catch(function (reason) {
+                            failure('出错原因:' + reason);
+                        });
+                    }
+                });
+            } else {
+                this.article.contentType = 1;
+                this.editType = 1;
+                this.markdownEditor = editormd("main-editor", {
+                    width: "100%",
+                    height: 400,
+                    flowChart: true,
+                    sequenceDiagram: true,
+                    taskList: true,
+                    imageUpload: true,
+                    htmlDecode: true,
+                    tex: true,
+                    saveHTMLToTextarea: true,
+                    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL: apiBaseUrl + '/uploads/upload/authApi/image',
+                    /*https://blog.csdn.net/qq_29761395/article/details/104194166*/
+                    /*editormd源码经过修改，新增了imagesUploadHandler方法*/
+                    imagesUploadHandler: function (guid, formData, success, failure) {
+                        let file = formData.get('editormd-image-file');
+                        formData.delete('editormd-image-file');
+                        axiosUploadFile('/uploads/upload/authApi/image?guid=' + guid, file, file.name).then(function (response) {
+                            if (response) {
+                                success(response);
+                            }
+                        }).catch(function (reason) {
+                            failure(reason);
+                        })
+                    },
+                    theme: "default | dark",
+                    editorTheme: editormd.editorThemes['theme-name'],
+                    path: "../lib/editormd/lib/"
+                });
+            }
+            this.postTypeSelect = xmSelect.render({
+                el: '#postTypeSelect',
+                language: 'zn',
+                tips: '请选择发表类型(单选)',
+                empty: '无数据',
+                searchTips: '搜索发表类型',
+                radio: true,
+                autoRow: true,
+                clickClose: true,
+                filterable: true,
+                paging: true,
+                pageSize: 5,
+                pageEmptyShow: false,
+                model: {
+                    label: {
+                        block: {
+                            template: function (item, sels) {
+                                return '<i class="layui-icon layui-icon-form"></i>&nbsp;' + item.name;
+                            },
+                        },
+                    }
+                },
+                template({item, sels, name, value}) {
+                    return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+                },
+                prop: {
+                    name: 'name',
+                    value: 'value',
+                },
+                toolbar: {
+                    show: true,
+                },
+                data: [
+                    {name: '原创', value: 0, selected: true},
+                    {name: '转载', value: 1},
+                    {name: '翻译', value: 2},
+                ]
+            });
+
+            this.prioritySelect = xmSelect.render({
+                el: '#prioritySelect',
+                language: 'zn',
+                tips: '请选择优选级(单选越小优先级越大)',
+                empty: '无数据',
+                searchTips: '搜索优先级',
+                radio: true,
+                autoRow: true,
+                clickClose: true,
+                filterable: true,
+                paging: true,
+                pageSize: 10,
+                pageEmptyShow: false,
+                model: {
+                    label: {
+                        block: {
+                            template: function (item, sels) {
+                                return '<i class="layui-icon layui-icon-diamond"></i>&nbsp;' + item.name;
+                            },
+                        },
+                    }
+                },
+                template({item, sels, name, value}) {
+                    return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+                },
+                prop: {
+                    name: 'name',
+                    value: 'value',
+                },
+                toolbar: {
+                    show: true,
+                },
+                data: []
+            });
+            let priorityData = [];
+            for (let i = 1; i <= 100; i++) {
+                priorityData.push({name: i, value: i});
+            }
+            priorityData[priorityData.length - 1].selected = true;
+            this.prioritySelect.update({
+                data: priorityData,
+                autoRow: true,
+            })
+
+            this.commentStatusSelect = xmSelect.render({
+                el: '#commentStatusSelect',
+                language: 'zn',
+                tips: '请选择评论类型(单选)',
+                empty: '无数据',
+                searchTips: '搜索评论类型',
+                radio: true,
+                autoRow: true,
+                clickClose: true,
+                filterable: true,
+                paging: true,
+                pageSize: 5,
+                pageEmptyShow: false,
+                model: {
+                    label: {
+                        block: {
+                            template: function (item, sels) {
+                                return '<i class="layui-icon layui-icon-form"></i>&nbsp;' + item.name;
+                            },
+                        },
+                    }
+                },
+                template({item, sels, name, value}) {
+                    return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+                },
+                prop: {
+                    name: 'name',
+                    value: 'value',
+                },
+                toolbar: {
+                    show: true,
+                },
+                data: [
+                    {name: '开启评论', value: 0, selected: true},
+                    {name: '不开启评论', value: 1},
+                ]
+            });
+
+            this.tagsDiv = xmSelect.render({
+                el: '#tagsSelect',
+                language: 'zn',
+                tips: '请选择标签(多选，最多五个)',
+                searchTips: '搜索标签',
+                empty: '空空如也也是一种风度',
+                paging: true,
+                pageSize: 5,
+                autoRow: true,
+                filterable: true,
+                pageEmptyShow: false,
+                max: 5,
+                model: {
+                    label: {
+                        block: {
+                            template: function (item, sels) {
+                                return '<i class="layui-icon layui-icon-note"></i>&nbsp;' + item.tagName;
+                            },
+                        },
+                    }
+                },
+                template({item, sels, name, value}) {
+                    return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+                },
+                prop: {
+                    name: 'tagName',
+                    value: 'id',
+                },
+                toolbar: {
+                    show: true,
+                },
+                maxMethod(seles, item) {
+                    layui.use('layer', function () {
+                        layui.layer.alert(`${item.tagName}不能选了, 已经超了`, {
+                            icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6
+                        })
+                    });
+                },
+                data: []
+            })
+
+            this.classifyDiv = xmSelect.render({
+                el: '#classifySelect',
+                language: 'zn',
+                tips: '请选择分类(单选)',
+                empty: '空空如也也是一种风度',
+                searchTips: '搜索分类',
+                radio: true,
+                autoRow: true,
+                clickClose: true,
+                filterable: true,
+                paging: true,
+                pageSize: 5,
+                pageEmptyShow: false,
+                model: {
+                    label: {
+                        block: {
+                            template: function (item, sels) {
+                                return '<i class="layui-icon layui-icon-template-1"></i>&nbsp;' + item.classifyName;
+                            },
+                        },
+                    }
+                },
+                template({item, sels, name, value}) {
+                    return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+                },
+                prop: {
+                    name: 'classifyName',
+                    value: 'id',
+                },
+                toolbar: {
+                    show: true,
+                },
+                data: []
+            });
+        },
+        created() {
+            axiosGetFunction('/api/classify/openApi/queryAll', true).then((response) => {
+                if (response) {
+                    this.classifyDiv.update({
+                        data: response,
+                        autoRow: true,
+                    })
+                }
+            });
+            axiosGetFunction('/api/tag/openApi/queryAll', true).then((response) => {
+                if (response) {
+                    this.tagsDiv.update({
+                        data: response,
+                        autoRow: true,
+                    });
+                }
+            });
+        }
+    })
+
+    /*window.onload = function (){
+        console.log(vueObject.markdownEditor);
+        vueObject.markdownEditor.setMarkdown('# Marked in the browser\\n\\nRendered by **marked**.');
+        vueObject.markdownEditor.getMarkdown();// 获取 Markdown 源码
+        vueObject.markdownEditor.getHTML();// 获取 Textarea 保存的 HTML 源码
+    };*/
+
+
+</script>
+</body>
+</html>

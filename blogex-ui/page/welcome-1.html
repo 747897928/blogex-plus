@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>首页二</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.7/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layer-v3.5.1/layer/theme/default/layer.css" media="all">
+    <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <style>
+        .layui-card {border:1px solid #f2f2f2;border-radius:5px;}
+        .icon {margin-right:10px;color:#1aa094;}
+        .icon-cray {color:#ffb800!important;}
+        .icon-blue {color:#1e9fff!important;}
+        .icon-tip {color:#ff5722!important;}
+        .layuimini-qiuck-module {text-align:center;margin-top: 10px}
+        .layuimini-qiuck-module a i {display:inline-block;width:100%;height:60px;line-height:60px;text-align:center;border-radius:2px;font-size:30px;background-color:#F8F8F8;color:#333;transition:all .3s;-webkit-transition:all .3s;}
+        .layuimini-qiuck-module a cite {position:relative;top:2px;display:block;color:#666;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:14px;}
+        .welcome-module {width:100%;height:210px;}
+        .panel {background-color:#fff;border:1px solid transparent;border-radius:3px;-webkit-box-shadow:0 1px 1px rgba(0,0,0,.05);box-shadow:0 1px 1px rgba(0,0,0,.05)}
+        .panel-body {padding:10px}
+        .panel-title {margin-top:0;margin-bottom:0;font-size:12px;color:inherit}
+        .label {display:inline;padding:.2em .6em .3em;font-size:75%;font-weight:700;line-height:1;color:#fff;text-align:center;white-space:nowrap;vertical-align:baseline;border-radius:.25em;margin-top: .3em;}
+        .layui-red {color:red}
+        .main_btn > p {height:40px;}
+        .layui-bg-number {background-color:#F8F8F8;}
+        .layuimini-notice:hover {background:#f6f6f6;}
+        .layuimini-notice {padding:7px 16px;clear:both;font-size:12px !important;cursor:pointer;position:relative;transition:background 0.2s ease-in-out;}
+        .layuimini-notice-title,.layuimini-notice-label {
+            padding-right: 70px !important;text-overflow:ellipsis!important;overflow:hidden!important;white-space:nowrap!important;}
+        .layuimini-notice-title {line-height:28px;font-size:14px;}
+        .layuimini-notice-extra {position:absolute;top:50%;margin-top:-8px;right:16px;display:inline-block;height:16px;color:#999;}
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md8">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-warning icon"></i>数据统计</div>
+                            <div class="layui-card-body">
+                                <div class="welcome-module">
+                                    <div class="layui-row layui-col-space10">
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-blue">实时</span>
+                                                        <h5>日浏览</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins" v-text="todayCount"></h1>
+                                                        <small>日浏览总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-cyan">实时</span>
+                                                        <h5>周浏览</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins" v-text="weekCount"></h1>
+                                                        <small>周浏览总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-orange">离线</span>
+                                                        <h5>月浏览</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins" v-text="mouthCount"></h1>
+                                                        <small>月浏览总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-green">离线</span>
+                                                        <h5>全部浏览</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins" v-text="totalCount"></h1>
+                                                        <small>总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-credit-card icon icon-blue"></i>快捷入口</div>
+                            <div class="layui-card-body">
+                                <div class="welcome-module">
+                                    <div class="layui-row layui-col-space10 layuimini-qiuck">
+                                        <div class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" layuimini-content-href="page/setting.html" data-title="系统设置" data-icon="fa fa-gears">
+                                                <i class="fa fa-gears"></i>
+                                                <cite>系统设置</cite>
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" layuimini-content-href="error/404.html" data-title="404页面" data-icon="fa fa-hourglass-end">
+                                                <i class="fa fa-hourglass-end"></i>
+                                                <cite>404页面</cite>
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" layuimini-content-href="page/TagTable.html" data-title="标签管理" data-icon="fa fa-tags">
+                                                <i class="fa fa-tags"></i>
+                                                <cite>标签管理</cite>
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" layuimini-content-href="page/articleTable.html" data-title="文章管理" data-icon="fa fa-mortar-board">
+                                                <i class="fa fa-mortar-board"></i>
+                                                <cite>文章管理</cite>
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" layuimini-content-href="page/musicTable.html" data-title="音乐盒子管理" data-icon="fa fa-music">
+                                                <i class="fa fa-music"></i>
+                                                <cite>音乐盒子管理</cite>
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" layuimini-content-href="page/linksTable.html" data-title="友链管理" data-icon="fa fa-link">
+                                                <i class="fa fa-link"></i>
+                                                <cite>友链管理</cite>
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" layuimini-content-href="page/classifyTable.html" data-title="分类管理" data-icon="fa fa-calendar-o">
+                                                <i class="fa fa-calendar-o"></i>
+                                                <cite>分类管理</cite>
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-xs3 layuimini-qiuck-module">
+                                            <a href="javascript:;" layuimini-content-href="page/commentTable.html" data-title="评论管理" data-icon="fa fa-comment">
+                                                <i class="fa fa-comment"></i>
+                                                <cite>评论管理</cite>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>报表统计</div>
+                            <div class="layui-card-body">
+                                <div id="echarts-records" style="width: 100%;min-height:500px"></div>
+                            </div>
+                        </div>
+                    </div>                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header"><i class="fa fa-fire icon"></i>版本信息</div>
+                    <div class="layui-card-body layui-text">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="100">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <td>项目名称</td>
+                                <td>
+                                    基于分布式架构的个人博客系统
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>当前版本</td>
+                                <td>v1.0.0</td>
+                            </tr>
+                            <tr>
+                                <td>主要特色</td>
+                                <td> 响应式 / 前后端分离 / 开箱即用</td>
+                            </tr>
+                            <tr>
+                                <td>技术栈</td>
+                                <td> Spring全家桶 / Vue / Layui</td>
+                            </tr>
+                            <tr>
+                                <td>Gitee</td>
+                                <td>
+                                    <a href="https://gitee.com/guangxikejidaxue/blogex" target="_blank" style="margin-right: 15px">https://gitee.com/guangxikejidaxue/blogex</a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="layui-card">
+                    <div class="layui-card-header"><i class="fa fa-paper-plane-o icon"></i>作者心语</div>
+                    <div class="layui-card-body layui-text layadmin-text">
+                         <p>本博客前端后台是基于layuimini开源框架实现的，前端前台首页基于Java开源项目Solo的nijigen皮肤的样式，
+                             其余样式基于layui修修补补，前端页面渲染上基于vue， 加上jquery操作dom完成数据的渲染(虽然前端开发规范不推荐，
+                             而且也是很老的技术，但是对我一个后端开发友好)。 样式控制选用layui(虽然layui官网已经关闭),后端基于Spring Cloud Alibaba，
+                             SpringSecurity，Mybatis-Plus等， 内置邮件回复功能，前端用了很多开源插件， 比如layuimini、tinymce、layui、
+                             pixi-live2d-display、APlayer、prism、 OwO表情包插件、editormd、 introjs等，感谢开源社区的作者们，谢谢你们！
+                         </p>
+                    </div>
+                </div>
+
+                <div class="layui-card">
+                    <div class="layui-card-header"><i class="fa fa-bookmark icon"></i>博客总览</div>
+                    <div class="layui-card-body layui-text layadmin-text">
+                        <div class="layui-card-body layui-text">
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="100">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <td><i class="fa fa-mortar-board icon"></i>文章</td>
+                                    <td>
+                                        {{overview.sumArticle}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-comment icon"></i>评论</td>
+                                    <td>{{overview.sumComment}}</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-search icon"></i>浏览</td>
+                                    <td>{{overview.sumView}}<span class="ft-gray"></span></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-thumbs-o-up icon"></i>点赞</td>
+                                    <td> {{overview.sumSupport}}<span class="ft-gray"></span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="../lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+<script src="../lib/axios/axios.min.js"></script>
+<script src="../js/main.js"></script>
+<script src="../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="../lib/vue-module/vue.js"></script>
+<script src="../js/welcome.js"></script>
+</html>

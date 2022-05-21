@@ -1,0 +1,100 @@
+.avatar_image {
+    -webkit-text-size-adjust: 100%;
+    font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    color: #3d4450;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+    overflow: hidden;
+    font-size: 12px;
+    /*border-radius: 50%;*/
+    height: 140px;
+    width: 140px;
+    display: block;
+    transition: transform .3s;
+    margin: 2px auto 2px;
+}
+.header {
+    background-color: rgba(10, 10, 0, 0.7);
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    transition: all .3s;
+    box-shadow: 0 0 8px black
+}
+
+.header:hover {
+    background-color: rgba(10, 10, 0, 0.9)
+}
+
+.header a {
+    color: #fff;
+    padding: 0 15px;
+    display: inline-block
+}
+
+.header a.current, .header a:hover {
+    text-decoration: none;
+    background-color: rgba(102, 88, 184, 0.8)
+}
+
+.header__logo {
+    position: absolute;
+    left: 30px
+}
+
+.header__nav {
+    text-align: center
+}
+
+.header__nav img {
+    float: left;
+    height: 20px;
+    width: 20px;
+    margin: 15px 5px 0 0
+}
+
+.header__login {
+    position: absolute;
+    right: 30px;
+    top: 10px;
+}
+
+a:link, a:visited {
+    text-decoration: none; /*超链接无下划线*/
+}
+
+#reflashMessage {
+    line-height: 24px;
+    font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    text-align: center;
+    border: 0;
+    background-color: #009688;
+    color: white;
+    background-repeat: no-repeat;
+    margin: 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    float: left;
+    padding: 5px;
+}
+
+#sendArea {
+    text-align: right;
+}
+
+#mainContent {
+    margin-top: 20px;
+}
+
+.layui-form-pane .layui-form-label {
+    /*display: flex;
+    align-items: center;
+    justify-content: center*/;
+}

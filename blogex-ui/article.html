@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>文章详情页</title>
+    <meta name="referrer" content="never">
+    <meta http-equiv="Content-Type" content="text/html">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="theme-color" content="#3b3e43">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="文章详情页"/>
+    <link id="bloggerIcon" rel="shortcut icon" type="image/x-icon"/>
+    <link rel="stylesheet" href="lib/layui-v2.5.7/css/layui.css">
+    <link rel="stylesheet" href="skins/css/articlebase.css">
+    <link rel="stylesheet" href="skins/css/bgSkins.css">
+    <link rel="stylesheet" type="text/css" href="./css/article.css"/>
+    <link rel="stylesheet" href="./lib/social-share/share.min.css">
+    <link rel="stylesheet" type="text/css" href="./lib/prism/prism.css">
+    <link rel="stylesheet" href="./lib/live2d/css/live2d.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/flat-ui.min.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Patrick+Hand+SC' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="./fonts/font-awesome-4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/icons.css"/>
+    <link rel="stylesheet" type="text/css" href="./lib/emoji/css/OwO.min.css">
+    <link rel="stylesheet" type="text/css" href="./lib/APlayer/APlayer.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./lib/blogexicon/blogexicon.css"/>
+    <link rel="stylesheet" type="text/css" href="./lib/blogexicon/iconfont.css"/>
+    <script src="./lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="./lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+    <script src="./lib/axios/axios.min.js"></script>
+    <script src="./lib/vue-module/vue.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+    <script src="./js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+    <script src="./lib/APlayer/APlayer.min.js"></script>
+    <script src="./lib/social-share/social-share.min.js"></script>
+    <script src="./lib/social-share/qrcode.min.js"></script>
+    <script src="./lib/emoji/js/OwO.min.js"></script>
+    <script src="./lib/marked/marked.min.js"></script>
+    <script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6"></script>
+    <style type="text/css">[v-cloak] {
+        display: none !important;
+    }</style>
+</head>
+<body style="font-size: 16px">
+<div class="bg" rel="noreferrer"></div>
+<div class="bg bg--1" rel="noreferrer"></div>
+<div class="bg bg--2" rel="noreferrer"></div>
+<div class="bg bg--3" rel="noreferrer"></div>
+<div class="bg bg--4" rel="noreferrer"></div>
+<div class="bg bg--5" rel="noreferrer"></div>
+<header class="header">
+    <div class="header__wrap">
+        <a id="Header1_HeaderTitle" href="index.html" rel="section" class="header__logo">
+            <i class="icon__home"></i></a>
+        <nav class="mobile__hidden header__nav">
+            <a href="aboutMe.html" rel="section">
+                <img class="page-icon" src="images/vue.png">关于我
+            </a>
+
+            <a class="github-a" target="_blank" rel="section">
+                <img class="page-icon" src="images/github-icon.png">我的开源
+            </a>
+
+            <a href="tagsWall.html" rel="archive">
+                <i class="icon__tags"></i> 标签墙
+            </a>
+
+            <a href="links.html" rel="section">
+                <i class="icon__link"></i> 友情链接
+            </a>
+
+            <a href="./api/rss/openApi" rel="section">
+                <i class="icon__rss"></i> RSS
+            </a>
+        </nav>
+    </div>
+</header>
+<div class="header__m fn__none">
+    <i class="icon__list fn__none" onclick="$(this).next().slideToggle()"></i>
+    <main class="module__list fn__none"></main>
+    <i class="icon__more" onclick="$(this).next().slideToggle()"></i>
+    <main class="module__list">
+        <ul>
+            <li>
+                <a href="aboutMe.html" rel="section">
+                    <img class="page-icon" src="images/vue.png">关于我
+                </a>
+            </li>
+
+            <li>
+                <a class="github-a" target="_blank" rel="section">
+                    <img class="page-icon" src="images/github-icon.png">我的开源
+                </a>
+            </li>
+
+            <li>
+                <a href="tagsWall.html" rel="archive">
+                    <i class="icon__tags"></i> 标签墙
+                </a>
+            </li>
+
+            <li>
+                <a href="links.html" rel="archive" target="_blank">
+                    <i class="icon__link"></i> 友情链接</a>
+            </li>
+
+            <li>
+                <a href="./rss" rel="section">
+                    <i class="icon__rss"></i> RSS
+                </a>
+            </li>
+        </ul>
+    </main>
+</div>
+
+<div class="social-share"></div>
+
+<div class="main" id="pjax" v-cloak>
+    <div class="content">
+        <main id="articlePage">
+            <div class="article-list">
+                <div class="item item--active">
+                    <time class="vditor-tooltipped vditor-tooltipped__n item__date"
+                          v-bind:aria-label="articleItem.createTime.getFullYear()+'年'">
+                        {{articleItem.createTime.getMonth()+1}}月
+                        <span class="item__day" v-text="articleItem.createTime.getDate()"></span>
+                    </time>
+
+                    <h2 class="item__title">
+                        <a href="javascript:void(0)" rel="bookmark" v-text="articleItem.title">
+                        </a>
+                    </h2>
+                    <div class="item__date--m fn__none">
+                        <i class="icon__date"></i>{{articleItem.createTime}}
+                    </div>
+                    <div class="ft__center">
+                        <span class="spantag">
+                            <i class="icon__list"></i>
+                            <a href="javascript:void(0)" rel="tag" v-text="getPostType(articleItem)"></a>
+                        </span>
+                        <span class="spantag">
+                            <i class="icon__tags"></i>
+                             <i href="javascript:void(0)" v-for="(tagItem,index) in articleItem.tagList" :key="index">
+                                 <a href="javascript:void(0)" rel="spantag" v-text="tagItem.tagName"></a>
+                                 <i v-show="index<articleItem.tagList.length-1">,</i>
+                             </i>
+                        </span>
+                        <span class="spantag">
+                            <i class="icon__views"></i>
+                             <a href="javascript:void(0)" rel="spantag" v-text="articleItem.viewCount+' 阅览量'"></a>
+                        </span>
+                        <span class="spantag">
+                            <i class="icon__comments"></i>
+                              <a href="javascript:void(0)" rel="spantag" v-text="articleItem.sumComment+' 评论'"></a>
+                        </span>
+                    </div>
+
+                    <div id="divArticleContent"></div>
+                    <div class="supportArea">
+                        <div class="supportMessage">文章写得不错就支持一下博主吧</div>
+                        <button class="icobutton icobutton--thumbs-up" v-on:click="addSupport()">
+                            <span class="fa fa-thumbs-up"></span>
+                        </button>
+                        <div class="total_support">当前赞数：{{articleItem.supportCount}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="addComment">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-body">
+                                <form class="layui-form layui-form-pane" action="">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">昵称</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="visitorName"
+                                                   v-model="tempComment.userName" required
+                                                   lay-verify="required" placeholder="(必填)昵称" autocomplete="off"
+                                                   class="layui-input">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-body">
+                                <form class="layui-form layui-form-pane" action="">
+                                    <div class="layui-form-item" pane>
+                                        <label class="layui-form-label">你的邮箱</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="userEmail" v-model="tempComment.userEmail"
+                                                   required
+                                                   lay-verify="required" placeholder="(必填)你的邮箱,如有回复,系统会给您发邮件"
+                                                   autocomplete="off"
+                                                   class="layui-input">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-body comment-area">
+                                     <textarea id="commentTextarea" class="OwO-textarea" rows="8" cols="50"
+                                               placeholder="「 人生一世，草木一秋，皆是过程。美与可爱，有心皆懂 」"
+                                               oninput="wordLeg(this);" maxlength="600"
+                                               onpropertychange="if(value.length>600) value=value.substr(0,600)"
+                                               name="desc" class="layui-textarea">
+                                     </textarea>
+                                <div class="word-count-div">
+                                    <span class="text_count">0</span>&nbsp;/&nbsp;
+                                    <span class="num_count" id="numCount">600</span>
+                                </div>
+                                <div class="OwO"></div>
+                            </div>
+                            <input id="code" class="comment-input-text" placeholder="验证码" value="" type="text" class=""
+                                   style="width:170px">
+                            <img id="verifyImg" src="./images/verifyCodeImg.png" v-on:click="getvCode()" alt="点击获取验证码"/>
+
+                            <div class="comment-btn">
+                                <button type="button" v-on:click=addComment() class="layui-btn"><i
+                                        class="layui-icon layui-icon-release"></i>
+                                    发布评论
+                                </button>
+                                <button type="button" class="layui-btn layui-btn-disabled" id="cancel-Reply-btn"
+                                        v-on:click="cancelReply()">
+                                    <i class="layui-icon layui-icon-reply-fill"></i>
+                                    取消回复
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment-page">
+                <div id="comments">
+                    <ul class="layui-timeline">
+                        <li class="layui-timeline-item" v-for="(commentItem,index) in commentList" :key="index">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">
+                                    <div class="item__meta fn__clear comment-time">{{commentItem.createTime}}</div>
+                                </h3>
+                                <div class="usercomment">
+                                    <div class="layui-row layui-col-space4">
+                                        <div class="layui-col-md12">
+                                            <div class="layui-card">
+                                                <div class="layui-card-header">
+                                                    <div class="layui-inline" style='display: flex;justify-content: space-between;'>
+                                                        <div class="item-comment-fn">
+                                                            <img src="./images/github.png" class="comment-avatar">
+                                                            <div class="layui-inline comment-user-div">&nbsp{{commentItem.userName}}</div>
+                                                        </div>
+                                                        <div class="layui-inline">
+                                                            <button type="button"
+                                                                    v-on:click="replyComment(commentItem.id,commentItem.userName)"
+                                                                    class="layui-btn-sm layui-btn reply-btn layui-btn-primary">
+                                                                <i class="layui-icon layui-icon-reply-fill"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-card-body">
+                                                    <p v-text="commentItem.commentContent"></p>
+                                                    <i v-bind:class="getBrowserClass(commentItem.browserName)">&nbsp;{{commentItem.browserName}}</i>&nbsp;
+                                                    <i v-bind:class="getOSClass(commentItem.userOs)">&nbsp;{{commentItem.userOs}}</i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="layui-timeline">
+                                        <div class="layui-timeline-item"
+                                             v-for="(childItem,childIndex) in commentItem.childList" :key="childIndex">
+                                            <i class="layui-icon layui-timeline-axis"></i>
+                                            <div class="layui-timeline-content layui-text">
+                                                <h3 class="layui-timeline-title">
+                                                    <div class="item__meta fn__clear comment-time">
+                                                        {{childItem.createTime}}
+
+                                                    </div>
+                                                </h3>
+                                                <div class="usercomment">
+                                                    <div class="layui-row layui-col-space4">
+                                                        <div class="layui-col-md12">
+                                                            <div class="layui-card">
+                                                                <div class="layui-card-header">
+                                                                    <div class="layui-inline" style='display: flex;justify-content: space-between;'>
+                                                                        <div class="item-comment-fn">
+                                                                            <img v-if="childItem.userName.trim()==blogger.userName.trim()" v-bind:src="blogger.avatarUrl" class="comment-avatar">
+                                                                            <img v-else src="./images/github.png" class="comment-avatar">
+                                                                            <div class="layui-inline comment-user-div">&nbsp;<div v-if="childItem.userName.trim()==blogger.userName.trim()" class="blogger-label">博主</div>{{childItem.userName}}</div>
+                                                                        </div>
+                                                                        <div class="layui-inline">
+                                                                            <button type="button"
+                                                                                    v-on:click="replyComment(childItem.id,childItem.userName)"
+                                                                                    class="layui-btn-sm layui-btn reply-btn layui-btn-primary">
+                                                                                <i class="layui-icon layui-icon-reply-fill"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="layui-card-body">
+                                                                    <p v-text="childItem.commentContent"></p>
+                                                                    <i v-bind:class="getBrowserClass(childItem.browserName)">&nbsp;{{childItem.browserName}}</i>&nbsp;
+                                                                    <i v-bind:class="getOSClass(childItem.userOs)">&nbsp;{{childItem.userOs}}</i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <div id="pagination" class="pagination__item pagination__item--text"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <br>
+    </div>
+    <aside class="side">
+        <section class="vditor-reset module">
+            <main class="module__content">
+                <div>基于分布式架构的<span style="color: orangered; font-weight: bold;">个人博客系统</span></div>
+            </main>
+        </section>
+
+        <section class="module">
+            <header class="module__header">
+                <form class="form" onsubmit="return false">
+                    <input id="titleInput" placeholder="搜索" class="form__input" type="text" name="keyword">
+                    <button class="side__btn" type="submit" v-on:click="search()">
+                        <i class="icon__search"></i>
+                    </button>
+                </form>
+            </header>
+        </section>
+
+        <div class="module item">
+            <header class="module__header ft__center">博主：{{blogger.userName}}</header>
+            <main class="module__content ft__center">
+                <img class="side__avatar" v-bind:src="blogger.avatarUrl" alt="blogger">
+                {{blogger.signature}}<br>
+            </main>
+        </div>
+
+        <div class="module item">
+            <header class="module__header ft__center">音乐盒子</header>
+            <main class="module__content fn__clear">
+                <div id="aplayer"></div>
+            </main>
+        </div>
+
+        <div class="module item">
+            <header class="module__header">分类(日更新)</header>
+            <main class="module__content fn__clear module__content--three">
+                <a class="spantag vditor-tooltipped vditor-tooltipped__n"
+                   v-for="(classifyItem,index) in classifyList" :key="index"
+                   v-on:click="getArticleByClassify(classifyItem)"
+                   v-text="classifyItem.classifyName" v-bind:aria-label="classifyItem.refCount+'个'">
+                </a>
+            </main>
+        </div>
+
+        <div class="module item">
+            <header class="module__header">随机阅读</header>
+            <main class="module__list">
+                <ul>
+                    <li v-for="(articleRandomItem,index) in articleRandomList" :key="index">
+                        <a rel="nofollow" v-text="articleRandomItem.title"
+                           v-bind:href="'article.html?articleId='+articleRandomItem.id" target="_blank"></a>
+                    </li>
+                </ul>
+            </main>
+        </div>
+
+        <div class="module item">
+            <div class="module__header">
+                <div class="fn__flex">
+                    <div class="fn__flex-1 ft__center">{{overview.sumArticle}} 文章</div>
+                    <div class="fn__flex-1 ft__center">{{overview.sumComment}} 评论</div>
+                </div>
+                <br>
+                <div class="fn__flex">
+                    <div class="fn__flex-1 ft__center">{{overview.sumView}}<span class="ft-gray">浏览</span></div>
+                    <div class="fn__flex-1 ft__center">{{overview.sumSupport}}<span class="ft-gray">点赞</span></div>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+<div class="icon__up" onclick="Util.goTop()"></div>
+<br>
+<br>
+<footer class="footer"><a id="footer_a" href="http://beian.miit.gov.cn/" target="_blank"></a></footer>
+<script type="text/javascript" src="./skins/js/common.min.js" charset="utf-8"></script>
+<div id="landlord">
+    <div id="live2d-tips" class="live2d-tips" style="opacity: 0;"></div>
+    <canvas id="live2d" width="250" height="250" class="live2d"></canvas>
+    <div class="live2d-tool">
+        <span class="fui-home"></span>
+        <span class="fui-user"></span>
+        <span class="fui-chat"></span>
+        <span class="fui-photo"></span>
+        <span class="fui-cross"></span>
+    </div>
+</div>
+
+<script src="./js/article.js"></script>
+<script src="./lib/totalSupport/mo.min.js"></script>
+<script src="./lib/totalSupport/totalSupport.min.js"></script>
+<script src="./lib/commenttyping/commenttyping.min.js"></script>
+<script src="./lib/live2d/js/live2dcubismcore.js"></script>
+<script src="./lib/live2d/js/live2d.min.js"></script>
+<script src="./lib/live2d/js/pixi.min.js"></script>
+<script src="./lib/live2d/js/pixi-live2d-display.js"></script>
+<script src="./lib/live2d/js/initLive2d.js"></script>
+<script type="text/javascript">
+    if (!isMobile()) {
+        initModel();
+    }else {
+        $('#landlord').css('display','none');
+    }
+</script>
+</body>
+</html>

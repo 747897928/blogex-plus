@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxust.blogex.dao.mappers.TagMapper">
+
+
+    <select id="getByArticleIdList" resultType="cn.edu.gxust.blogex.dao.po.TagPO">
+        SELECT
+            tatm.article_id,
+            t_tag.tag_name,
+            t_tag.id AS tag_id
+        FROM
+            t_tag,
+            t_article_tag_map AS tatm
+        <where>
+            tatm.article_id IN
+            <foreach collection="articleIdList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="selectAllAndRefCount" resultType="cn.edu.gxust.blogex.dao.po.TagPO">
+        SELECT
+            t_tag.id,
+            t_tag.tag_name,
+            t_tag.create_time,
+            t_tag.update_time,
+            (
+                SELECT
+                    IFNULL(
+                            (
+                                SELECT count( tag_id ) FROM t_article_tag_map WHERE tag_id = t_tag.id GROUP BY tag_id
+                            ), 0
+                        )
+            )
+            AS ref_count
+        FROM
+            t_tag
+    </select>
+
+</mapper>

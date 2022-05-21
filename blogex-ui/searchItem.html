@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>搜索</title>
+    <meta name="referrer" content="never">
+    <meta http-equiv="Content-Type" content="text/html">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="theme-color" content="#3b3e43">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link id="bloggerIcon" rel="shortcut icon" type="image/x-icon"/>
+    <link rel="stylesheet" href="lib/layui-v2.5.7/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="./css/flat-ui.min.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Patrick+Hand+SC' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="./fonts/font-awesome-4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/icons.css"/>
+
+    <script src="./lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="./lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+    <script src="./lib/axios/axios.min.js"></script>
+    <script src="./lib/vue-module/vue.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+    <script src="./js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+
+    <script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6"></script>
+    <style type="text/css">[v-cloak] {
+        display: none !important;
+    }</style>
+</head>
+<body>
+<div id="searchArea" class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form layui-form-pane" onsubmit="return false">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <div class="item__avatar">
+                                <img v-bind:src="blogger.avatarUrl" width="35px" height="35px"
+                                     style="border-radius:100%; overflow:hidden">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-inline" id="searchIputDiv">
+                                <input id="searchInput" type="text" name="" autocomplete="off" class="layui-input"
+                                       placeholder="（必填）搜索关键字" required lay-verify="required"
+                                       onkeypress="if(event.keyCode===13){document.getElementById('searchBtn').click()}">
+                            </div>
+                            <div class="layui-inline" style="text-align: center">
+                                <button id="searchBtn" type="button" class="layui-btn" v-on:click="search()">
+                                    <i class="layui-icon layui-icon-search"></i>
+                                    搜索
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md12" v-for="(articleItem,index) in articleList" :key="index">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <a v-bind:href="'article.html?articleId='+articleItem.id"
+                   rel="bookmark" target="_blank" v-text="articleItem.title"></a>
+            </div>
+            <div class="layui-card-body">
+                <br>
+                <div class="ft__center">
+                    <span class="tag">
+                        <i class="icon__category"></i>
+                        <a href="javascript:void(0)" rel="tag" v-text="articleItem.classifyName"></a>
+                    </span>
+                    <span class="tag">
+                        <i class="icon__views"></i>
+                        <a href="javascript:void(0)" rel="tag" v-text="articleItem.viewCount"></a>
+                    </span>
+                    <span class="tag">
+                        <i class="icon__comments"></i>
+                        <a href="javascript:void(0)" rel="tag" v-text="articleItem.sumComment"></a>
+                    </span>
+                    <span v-text="articleItem.createTime"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+				<div id="pagination" class="pagination__item pagination__item--text"></div>
+			</div>
+        </div>
+    </div>
+
+
+    <footer class="footer"><a id="footer_a" href="http://beian.miit.gov.cn/" target="_blank"></a></footer>
+</div>
+<script src="./js/searchItem.js"></script>
+</body>
+</html>

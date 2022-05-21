@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="never">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/util.css">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="./css/slide.css">
+    <link rel="stylesheet" type="text/css" href="./css/adminLogin.css">
+    <link rel="stylesheet" type="text/css" href="lib/layui-v2.5.7/css/layui.css">
+</head>
+<body>
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('./images/bg-01.jpg');">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+            <form class="login100-form validate-form" action="#" method="post" onsubmit="return false">
+                <span class="login100-form-title p-b-49">密码登录</span>
+                <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
+                    <span class="label-input100">用户名</span>
+                    <input class="input100" type="text" id="inUserName" name="username" placeholder="请输入用户名"
+                           autocomplete="off">
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="请输入密码">
+                    <span class="label-input100">密码</span>
+                    <input class="input100" id="inPassWord" type="password" name="password" placeholder="请输入密码"
+                           autocomplete="off">
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                </div>
+
+                <div class="text-right p-t-8 p-b-31">
+                    <label><input type="checkbox" id="rememberMe" name="remember">记住我</label>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button class="login100-form-btn" onclick="submitLogin()">登 录</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="./lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="./lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+<script src="./lib/axios/axios.min.js"></script>
+<script src="./js/main.js"></script>
+<script src="lib/layui-v2.5.7/layui.js"></script>
+<script src="./js/adminLogin.js"></script>
+</body>
+</html>

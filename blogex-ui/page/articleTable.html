@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.7/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layer-v3.5.1/layer/theme/default/layer.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <form id="searchForm" class="layui-form layui-form-pane" action=""
+                  onsubmit="return false">
+
+                <div class="layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <form class="layui-form layui-form-pane" action="">
+                                <label class="layui-form-label">搜索关键字</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="modelSearchKey" id="searchKeyInput"
+                                           autocomplete="off" placeholder="请输入搜索关键字" class="layui-input">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <form class="layui-form layui-form-pane" action="">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">发表类型</label>
+                                    <div class="layui-input-block">
+                                        <div id="postTypeSelect"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <form class="layui-form layui-form-pane" action="">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">文章状态</label>
+                                    <div class="layui-input-block">
+                                        <div id="articleStatusSelect"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <form class="layui-form layui-form-pane" action="">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">评论状态</label>
+                                    <div class="layui-input-block">
+                                        <div id="commentStatusSelect"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <form class="layui-form layui-form-pane" action="">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">编辑器类型</label>
+                                    <div class="layui-input-block">
+                                        <div id="contentTypeSelect"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <form class="layui-form layui-form-pane" action="">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">开始时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="startDateSelect" id="startDateSelect"
+                                               autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <form class="layui-form layui-form-pane" action="">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">结束时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="endDateSelect" id="endDateSelect"
+                                               autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md1" style="margin-top: 10px;margin-left: 10px">
+                    <div class="layui-inline" style='display: flex;justify-content: space-between;'>
+                        <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                lay-filter="data-search-btn"><i class="layui-icon"></i>
+                        </button>
+                        <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                lay-filter="data-reset-btn" onclick="resetParam()"><i
+                                class="layui-icon layui-icon-refresh"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </fieldset>
+
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add"> 添加文章</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除文章
+                </button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+</div>
+<script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="../lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+<script src="../lib/axios/axios.min.js"></script>
+<script src="../lib/vue-module/vue.js"></script>
+<script src="../js/main.js"></script>
+<script src="../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script src="../lib/xm-select/xm-select.js"></script>
+<script>
+
+    const articleQuery = {
+        "articleStatus": null,
+        "classifyId": null,
+        "commentStatus": null,
+        "contentType": null,
+        "endTime": "",
+        "postType": null,
+        "searchKey": "",
+        "startTime": "",
+        "tagId": null
+    };
+
+
+    const postTypeSelect = xmSelect.render({
+        el: '#postTypeSelect',
+        language: 'zn',
+        tips: '请选择发表类型(单选)',
+        empty: '无数据',
+        searchTips: '搜索发表类型',
+        radio: true,
+        autoRow: true,
+        clickClose: true,
+        filterable: true,
+        paging: true,
+        pageSize: 5,
+        pageEmptyShow: false,
+        model: {
+            label: {
+                block: {
+                    template: function (item, sels) {
+                        return '<i class="layui-icon layui-icon-form"></i>&nbsp;' + item.name;
+                    },
+                },
+            }
+        },
+        template({item, sels, name, value}) {
+            return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+        },
+        prop: {
+            name: 'name',
+            value: 'value',
+        },
+        toolbar: {
+            show: true,
+        },
+        data: [
+            {name: '原创', value: 0},
+            {name: '转载', value: 1},
+            {name: '翻译', value: 2},
+        ]
+    });
+
+    const articleStatusSelect = xmSelect.render({
+        el: '#articleStatusSelect',
+        language: 'zn',
+        tips: '请选择文章状态(单选)',
+        empty: '无数据',
+        searchTips: '搜索文章状态',
+        radio: true,
+        autoRow: true,
+        clickClose: true,
+        filterable: true,
+        paging: true,
+        pageSize: 5,
+        pageEmptyShow: false,
+        model: {
+            label: {
+                block: {
+                    template: function (item, sels) {
+                        return '<i class="layui-icon layui-icon-form"></i>&nbsp;' + item.name;
+                    },
+                },
+            }
+        },
+        template({item, sels, name, value}) {
+            return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+        },
+        prop: {
+            name: 'name',
+            value: 'value',
+        },
+        toolbar: {
+            show: true,
+        },
+        data: [
+            {name: '公开', value: 0},
+            {name: '草稿', value: 1},
+        ]
+    });
+
+    const contentTypeSelect = xmSelect.render({
+        el: '#contentTypeSelect',
+        language: 'zn',
+        tips: '请选择编辑器类型(单选)',
+        empty: '无数据',
+        searchTips: '搜索编辑器类型',
+        radio: true,
+        autoRow: true,
+        clickClose: true,
+        filterable: true,
+        paging: true,
+        pageSize: 5,
+        pageEmptyShow: false,
+        model: {
+            label: {
+                block: {
+                    template: function (item, sels) {
+                        return '<i class="layui-icon layui-icon-template-1"></i>&nbsp;' + item.name;
+                    },
+                },
+            }
+        },
+        template({item, sels, name, value}) {
+            return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+        },
+        prop: {
+            name: 'name',
+            value: 'value',
+        },
+        toolbar: {
+            show: true,
+        },
+        data: [
+            {name: 'html', value: 0},
+            {name: 'markDown', value: 1},
+        ]
+    });
+
+    const commentStatusSelect = xmSelect.render({
+        el: '#commentStatusSelect',
+        language: 'zn',
+        tips: '请选择评论状态单选)',
+        empty: '无数据',
+        searchTips: '搜索评论状态',
+        radio: true,
+        autoRow: true,
+        clickClose: true,
+        filterable: true,
+        paging: true,
+        pageSize: 5,
+        pageEmptyShow: false,
+        model: {
+            label: {
+                block: {
+                    template: function (item, sels) {
+                        return '<i class="layui-icon layui-icon-login-wechat"></i>&nbsp;' + item.name;
+                    },
+                },
+            }
+        },
+        template({item, sels, name, value}) {
+            return name + '<span style="position: absolute; right: 10px; color: #8799a3">' + value + '</span>'
+        },
+        prop: {
+            name: 'name',
+            value: 'value',
+        },
+        toolbar: {
+            show: true,
+        },
+        data: [
+            {name: '开启评论', value: 0},
+            {name: '不开启评论', value: 1},
+        ]
+    });
+
+
+    layui.use(['form', 'table', 'layedit', 'laydate'], function () {
+        let $ = layui.jquery,
+            form = layui.form,
+            articleTable = layui.table,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#startDateSelect',
+            type: 'datetime',
+            done: function (value, date) {
+                /*value 得到日期生成的值，如：2022-05-18 00:00:00*/
+                articleQuery.startTime = value;
+                /*date 得到日期时间对象：{"year": 2022,"month": 5,"date": 18,"hours": 0,"minutes": 3,"seconds": 3}*/
+            }
+        });
+
+        laydate.render({
+            elem: '#endDateSelect',
+            type: 'datetime',
+            done: function (value, date) {
+                /*value 得到日期生成的值，如：2022-05-18 00:00:00*/
+                articleQuery.endTime = value;
+                /*date 得到日期时间对象：{"year": 2022,"month": 5,"date": 18,"hours": 0,"minutes": 3,"seconds": 3}*/
+            }
+        });
+
+        articleTable.render({
+            elem: '#currentTableId',
+            url: apiBaseUrl + '/api/article/openApi/page/query',
+            toolbar: '#toolbarDemo',
+            method: 'POST',
+            contentType: 'application/json',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            headers: {
+                Authorization: getToken(),
+            },
+            where: {
+                /*接口的其它参数*/
+                searchKey: "",
+            },
+            request: {
+                pageName: 'pageNo',/*页码的参数名称，默认：page*/
+                limitName: 'pageSize',/*每页数据量的参数名，默认：limit*/
+            },
+            response: {
+                /*请注意，这里处理的是parseData后的json数据，而非接口返回后的数据*/
+                statusName: 'code', /*规定数据状态的字段名称，默认：code*/
+                statusCode: 200, /*规定成功的状态码，默认：0*/
+                msgName: 'msg', /*规定状态信息的字段名称，默认：msg*/
+                countName: 'count', /*规定数据总数的字段名称，默认：count*/
+                dataName: 'data', /*规定数据列表的字段名称，默认：data*/
+            },
+            parseData: function (res) {
+                /*res 即为原始返回的数据*/
+                return {
+                    "code": res.code, /*解析接口状态*/
+                    "msg": res.message, /*解析提示文本*/
+                    "count": res.data.total, /*解析数据长度*/
+                    "data": res.data.list /*解析数据列表*/
+                };
+            },
+            cols: [[
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', width: 100, title: 'id'},
+                {field: 'title', width: 200, title: '标题'},
+                {field: 'priority', width: 100, title: '优先级'},
+                {
+                    field: 'articleStatus', width: 100, title: '文章状态', templet: function (d) {
+                        if (d.articleStatus === 0) {
+                            return "公开";
+                        } else if (d.articleStatus === 1) {
+                            return "草稿";
+                        }
+                    }
+                },
+                {
+                    field: 'postType', width: 100, title: '文章发布类型', templet: function (d) {
+                        if (d.postType === 0) {
+                            return "原创";
+                        } else if (d.postType === 1) {
+                            return "转载";
+                        } else if (d.postType === 2) {
+                            return "翻译";
+                        }
+                    }
+                },
+                {
+                    field: 'contentType', width: 100, title: '文章内容的类型', templet: function (d) {
+                        if (d.contentType === 0) {
+                            return "html";
+                        } else if (d.contentType === 1) {
+                            return "markdown";
+                        }
+                    }
+                },
+                {
+                    field: 'commentStatus', width: 150, title: '文章评论状态', templet: function (d) {
+                        if (d.commentStatus === 0) {
+                            return "开启评论";
+                        } else if (d.commentStatus === 1) {
+                            return "不开启评论";
+                        }
+                    }
+                },
+
+                {field: 'classifyId', width: 100, title: '文章分类id'},
+                {field: 'classifyName', width: 150, title: '文章分类名'},
+                {
+                    field: 'tagList', width: 150, title: '标签', templet: function (d) {
+                        let tagList = d.tagList;
+                        let resultList = [];
+                        if (tagList) {
+                            for (let i = 0; i < tagList.length; i++) {
+                                let tagItem = tagList[i];
+                                resultList.push(tagItem.tagName);
+                            }
+                            return resultList.toString();
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {field: 'sumComment', width: 100, title: '评论数'},
+                {field: 'supportCount', width: 100, title: '点赞量'},
+                {field: 'viewCount', width: 100, title: '阅览量'},
+                {field: 'snippet', width: 150, title: '文章的摘要'},
+                {field: 'reviewImgUrl', width: 150, title: '预览图片url'},
+                {
+                    field: 'createTime', width: 200, title: '创建时间', templet: function (d) {
+                        return new Date(d.createTime).format("yyyy-MM-dd HH:mm:ss");
+                    }
+                },
+                {
+                    field: 'updateTime', width: 200, title: '更新时间', templet: function (d) {
+                        return new Date(d.updateTime).format("yyyy-MM-dd HH:mm:ss");
+                    }
+                },
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 15,
+            page: true
+        });
+
+        /*监听搜索操作*/
+        form.on('submit(data-search-btn)', function (data) {
+            /*let result = JSON.stringify(data.field);*/
+            let searchKey = $('#searchKeyInput').val();
+            let postTypeArr = postTypeSelect.getValue('value');
+            if (postTypeArr.length !== 0) {
+                articleQuery.postType = postTypeArr[0]
+            }
+
+            let articleStatusArr = articleStatusSelect.getValue('value');
+            if (articleStatusArr.length !== 0) {
+                articleQuery.articleStatus = articleStatusArr[0]
+            }
+
+            let contentTypeArr = contentTypeSelect.getValue('value');
+            if (contentTypeArr.length !== 0) {
+                articleQuery.contentType = contentTypeArr[0]
+            }
+            let commentStatusArr = commentStatusSelect.getValue('value');
+            if (commentStatusArr.length !== 0) {
+                articleQuery.commentStatus = commentStatusArr[0]
+            }
+
+            /*执行搜索重载*/
+            articleTable.reload('currentTableId', {
+                url: apiBaseUrl + '/api/article/openApi/page/query',
+                method: 'POST',
+                contentType: 'application/json',
+                page: {
+                    curr: 1
+                },
+                headers: {
+                    Authorization: getToken(),
+                },
+                request: {
+                    pageName: 'pageNo',/*页码的参数名称，默认：page*/
+                    limitName: 'pageSize',/*每页数据量的参数名，默认：limit*/
+                },
+                response: {
+                    /*请注意，这里处理的是parseData后的json数据，而非接口返回后的数据*/
+                    statusName: 'code', /*规定数据状态的字段名称，默认：code*/
+                    statusCode: 200, /*规定成功的状态码，默认：0*/
+                    msgName: 'msg', /*规定状态信息的字段名称，默认：msg*/
+                    countName: 'count', /*规定数据总数的字段名称，默认：count*/
+                    dataName: 'data', /*规定数据列表的字段名称，默认：data*/
+                },
+                parseData: function (res) {
+                    /*res 即为原始返回的数据*/
+                    return {
+                        "code": res.code, /*解析接口状态*/
+                        "msg": res.message, /*解析提示文本*/
+                        "count": res.data.total, /*解析数据长度*/
+                        "data": res.data.list /*解析数据列表*/
+                    };
+                },
+                where: {
+                    /*接口的其它参数*/
+                    articleStatus: articleQuery.articleStatus,
+                    commentStatus: articleQuery.commentStatus,
+                    contentType: articleQuery.contentType,
+                    postType: articleQuery.postType,
+                    startTime: articleQuery.startTime,
+                    endTime: articleQuery.endTime,
+                    searchKey: searchKey,
+                },
+            }, 'data');
+            return false;
+        });
+
+
+        /**
+         * toolbar监听事件
+         */
+        articleTable.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  /*监听添加操作*/
+                layer.confirm('富文本编辑器 OR MarkDown？', {
+                    title: '编辑器选择',
+                    icon: 3,
+                    btn: ['富文本编辑器', 'MarkDown'],
+                    skin: 'layui-layer-lan',
+                    anim: 2,
+                }, function () {
+                    layer.closeAll();
+                    let addIndex = layer.open({
+                        title: '添加文章(富文本编辑器)',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: './articleEditor.html?editType=0',
+                        end: function () {
+                            layer.close(addIndex);
+                            layer.confirm('你可能修改了数据，是否立即刷新表格数据', function (index) {
+                                layer.closeAll();
+                                location.reload();
+                            });
+                        },
+                    });
+                }, function () {
+                    layer.closeAll();
+                    let addIndex = layer.open({
+                        title: '添加文章(MarkDown编辑器)',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: './articleEditor.html?editType=1',
+                        end: function () {
+                            layer.close(addIndex);
+                            layer.confirm('你可能修改了数据，是否立即刷新表格数据', function (index) {
+                                layer.closeAll();
+                                location.reload();
+                            });
+                        },
+                    });
+                });
+
+
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'delete') {  /*监听删除操作*/
+                layer.confirm('真的删除行么', function (index) {
+                    let arr = [];
+                    let checkStatus = articleTable.checkStatus('currentTableId')
+                        , data = checkStatus.data;
+                    for (let i in data) {
+                        /*console.log(data[i].id)*/
+                        arr.push(data[i].id)
+                    }
+                    axiosDeleteFunction('/api/article/authApi/batch', arr, true).then((responseData) => {
+                        if (responseData) {
+                            layer.close(index)
+                            layer.alert(responseData, {
+                                icon: 1,
+                                skin: 'layui-layer-molv',
+                                closeBtn: 0,
+                                anim: 4
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }).catch(function (err) {
+                        layer.alert("删除失败:" + err);
+                    });
+                });
+            }
+        });
+
+        /*监听表格复选框选择*/
+        articleTable.on('checkbox(currentTableFilter)', function (obj) {
+            /*console.log(obj);*/
+        });
+
+        articleTable.on('tool(currentTableFilter)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'edit') {
+                let editIndex = layer.open({
+                    title: '编辑文章',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: './updatearticleEditor.html?articleId=' + data.id + "&editType=" + data.contentType,
+                    end: function () {
+                        layer.close(editIndex);
+                        layer.confirm('你可能修改了数据，是否立即刷新表格数据', function (index) {
+                            layer.closeAll();
+                            location.reload();
+                        });
+                    },
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    let arr = new Array(1);
+                    arr[0] = data.id;
+                    axiosDeleteFunction('/api/article/authApi/batch', arr, true).then((responseData) => {
+                        if (responseData) {
+                            layer.close(index)
+                            layer.alert(responseData, {
+                                icon: 1,
+                                skin: 'layui-layer-molv',
+                                closeBtn: 0,
+                                anim: 4
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }).catch(function (err) {
+                        layer.alert("删除失败:" + err);
+                    });
+                });
+            }
+        });
+    });
+
+    function resetParam() {
+        articleQuery['articleStatus'] = null;
+        articleQuery['classifyId'] = null;
+        articleQuery['commentStatus'] = null;
+        articleQuery['contentType'] = null;
+        articleQuery['endTime'] = "";
+        articleQuery['postType'] = null;
+        articleQuery['searchKey'] = "";
+        articleQuery['startTime'] = "";
+        articleQuery['tagId'] = null;
+        commentStatusSelect.setValue([]);
+        contentTypeSelect.setValue([]);
+        articleStatusSelect.setValue([]);
+        postTypeSelect.setValue([]);
+        layui.use('form', function () {
+            let form = layui.form;
+            /*清空是否展示的下拉框*/
+            let formArr = $('form.layui-form');
+            for (let i = 0; i < formArr.length; i++) {
+                formArr[i].reset();
+            }
+            /*强制layui表单刷新ui*/
+            form.render();
+        });
+    }
+</script>
+<script>
+</script>
+</body>
+</html>

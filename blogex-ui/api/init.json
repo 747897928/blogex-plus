@@ -1,0 +1,102 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "page/welcome-1.html?t=1"
+  },
+  "logoInfo": {
+    "title": "管理员控制台",
+    "image": "images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [{
+    "title": "常规管理",
+    "icon": "fa fa-address-book",
+    "href": "",
+    "target": "_self",
+    "child": [{
+      "title": "首页",
+      "href": "page/welcome-1.html",
+      "icon": "fa fa-home",
+      "target": "_self"
+    }, {
+        "title": "博主设置",
+        "href": "page/setting.html",
+        "icon": "fa fa-user-secret",
+        "target": "_self"
+      },
+      {
+        "title": "系统设置",
+        "href": "page/setting-2.html",
+        "icon": "fa fa-gears",
+        "target": "_self"
+      },
+      {
+        "title": "主要功能",
+        "href": "",
+        "icon": "fa fa-calendar",
+        "target": "_self",
+        "child": [{
+          "title": "文章管理",
+          "href": "page/articleTable.html",
+          "icon": "fa fa-mortar-board",
+          "target": "_self"
+        },
+          {
+            "title": "分类管理",
+            "href": "page/classifyTable.html",
+            "icon": "fa fa-calendar-o",
+            "target": "_self"
+          },
+          {
+            "title": "标签管理",
+            "href": "page/TagTable.html",
+            "icon": "fa fa-tags",
+            "target": "_self"
+          },
+          {
+            "title": "评论管理",
+            "href": "page/commentTable.html",
+            "icon": "fa fa-comment",
+            "target": "_self"
+          },
+          {
+            "title": "友链管理",
+            "href": "page/linksTable.html",
+            "icon": "fa fa-link",
+            "target": "_self"
+          },
+          {
+            "title": "音乐盒子管理",
+            "href": "page/musicTable.html",
+            "icon": "fa fa-music",
+            "target": "_self"
+          }
+        ]
+      },
+      {
+        "title": "看板娘设置",
+        "href": "",
+        "icon": "fa fa-child",
+        "target": "_self",
+        "child": [{
+          "title": "创建看板娘",
+          "href": "page/live2dInsert.html",
+          "icon": "fa fa-send-o",
+          "target": "_self"
+        }, {
+            "title": "看板娘管理",
+            "href": "page/live2dTable.html",
+            "icon": "fa fa-search",
+            "target": "_self"
+          }, {
+            "title": "看板娘词库",
+            "href": "page/live2dMessageEditor.html",
+            "icon": "fa fa-comment-o",
+            "target": "_self"
+          }
+
+        ]
+      }
+    ]
+  }]
+}

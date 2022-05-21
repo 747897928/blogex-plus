@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.gxust.blogex.dao.mappers.ArticleMapper">
+
+    <resultMap type="cn.edu.gxust.blogex.dao.po.ArticlePO" id="ArticleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="snippet" column="snippet" jdbcType="VARCHAR"/>
+        <result property="classifyId" column="classify_id" jdbcType="INTEGER"/>
+        <result property="reviewImgUrl" column="review_img_url" jdbcType="VARCHAR"/>
+        <result property="postType" column="post_type" jdbcType="INTEGER"/>
+        <result property="contentType" column="content_type" jdbcType="INTEGER"/>
+        <!--<result property="content" column="content" jdbcType="VARCHAR"/>-->
+        <result property="articleStatus" column="article_status" jdbcType="INTEGER"/>
+        <result property="commentStatus" column="comment_status" jdbcType="INTEGER"/>
+        <result property="viewCount" column="view_count" jdbcType="INTEGER"/>
+        <result property="supportCount" column="support_count" jdbcType="INTEGER"/>
+        <result property="priority" column="priority" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="classifyName" column="classify_name" jdbcType="VARCHAR"/>
+        <result property="sumComment" column="sum_comment" jdbcType="INTEGER"/>
+        <collection property="tagList" ofType="cn.edu.gxust.blogex.dao.po.TagPO" select="queryByArticleId"
+                    javaType="ArrayList" column="id">
+            <result property="id" column="tag_id" jdbcType="INTEGER"/>
+            <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+
+    <select id="findTitle" resultType="java.lang.String">
+        select `title`
+        from t_article
+        where id = #{articleId}
+    </select>
+
+    <select id="getBlogOverview" resultType="cn.edu.gxust.blogex.dao.po.OverviewPO">
+        SELECT (SELECT COUNT(*) FROM t_article)                      AS sum_article,
+               IFNULL((SELECT sum(view_count) FROM t_article), 0)    AS sum_view,
+               IFNULL((SELECT sum(support_count) FROM t_article), 0) AS sum_support,
+               (SELECT COUNT(*) FROM t_comment)                      AS sum_comment
+    </select>
+
+    <select id="getRandomArticle" resultType="cn.edu.gxust.blogex.dao.po.ArticlePO">
+        select id, `title`, view_count
+        from t_article
+        where article_status = 0
+        order by rand() desc limit 10
+    </select>
+
+    <select id="queryByArticleId" resultType="cn.edu.gxust.blogex.dao.po.TagPO">
+        SELECT ttag.id,
+               ttag.tag_name,
+               ttag.create_time,
+               ttag.update_time
+        FROM t_article AS ta
+                 LEFT JOIN t_article_tag_map AS tatm ON ta.id = tatm.article_id
+                 LEFT JOIN t_tag AS ttag ON tatm.tag_id = ttag.id
+        WHERE ta.id = #{articleId}
+    </select>
+
+    <select id="listQuery" resultMap="ArticleMap">
+        SELECT
+        ta.id,
+        ta.title,
+        ta.snippet,
+        ta.classify_id,
+        ta.classify_name,
+        ta.review_img_url,
+        ta.post_type,
+        ta.content_type,
+        ta.article_status,
+        ta.comment_status,
+        ta.view_count,
+        ta.support_count,
+        ta.sum_comment,
+        ta.priority,
+        ta.create_time,
+        ta.update_time
+        FROM
+        t_article AS ta
+        <where>
+            <if test="idList != null and idList.size()>0">
+                ta.id in
+                (
+                <foreach collection="idList" item="item" separator=",">
+                    #{item}
+                </foreach>
+                )
+            </if>
+            <if test="classifyId != null">
+                ta.classify_id = #{classifyId}
+            </if>
+            <if test="articleStatus != null">
+                AND ta.article_status = #{articleStatus}
+            </if>
+            <if test="commentStatus != null">
+                AND ta.comment_status = #{commentStatus}
+            </if>
+            <if test="postType != null">
+                AND ta.post_type = #{postType}
+            </if>
+            <if test="contentType != null">
+                AND ta.content_type = #{contentType}
+            </if>
+            <if test="startTime != null">
+                AND ta.create_time >= #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND ta.create_time &lt;= #{endTime}
+            </if>
+            <if test="searchKey != null and searchKey != ''">
+                and (
+                ta.id = #{searchKey}
+                or
+                ta.title like concat('%',#{searchKey},'%')
+                )
+            </if>
+        </where>
+        order by ta.priority asc,ta.create_time desc
+    </select>
+
+    <update id="updateClassifyName" parameterType="java.lang.Integer">
+        UPDATE t_article as ta
+        SET classify_name = (
+            SELECT tcl.classify_name
+            FROM t_classify AS tcl
+            WHERE ta.classify_id = tcl.id
+        )
+        WHERE ta.classify_id = #{classifyId}
+    </update>
+
+    <update id="updateSumComment" parameterType="java.lang.Integer">
+        UPDATE t_article as ta
+        SET sum_comment = ifnull(
+                (
+                    SELECT count(tco.id)
+                    FROM t_comment AS tco
+                    WHERE tco.article_id = ta.id
+                    group by tco.article_id
+                )
+            ,0)
+        WHERE ta.id = #{articleId}
+    </update>
+
+    <update id="updateSumCommentByList">
+        UPDATE t_article as ta
+        SET sum_comment = ifnull(
+                (
+                SELECT count(tco.id)
+                FROM t_comment AS tco
+                WHERE tco.article_id = ta.id
+                group by tco.article_id
+                )
+            ,0)
+        <where>
+            ta.id in
+            <foreach collection="articleIdList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </update>
+
+    <!--SELECT
+    ta.id,
+    ta.classify_id,
+    tt.id AS tag_id,
+    tt.tag_name AS tag_name,
+    IFNULL( tco.sum_comment, 0 ) AS sum_comment,
+    tcl.classify_name,
+    ta.title,
+    ta.snippet,
+    ta.review_img_url,
+    ta.post_type,
+    ta.content_type,
+    ta.article_status,
+    ta.comment_status,
+    ta.view_count,
+    ta.support_count,
+    ta.priority,
+    ta.create_time,
+    ta.update_time
+    FROM
+    t_article AS ta
+    LEFT JOIN
+    t_article_tag_map AS tatm
+    ON
+    ta.id = tatm.article_id
+    LEFT JOIN
+    t_tag AS tt
+    ON
+    tatm.tag_id = tt.id
+    LEFT JOIN
+    (
+    SELECT
+    article_id,
+    COUNT(t_comment.article_id) AS sum_comment
+    FROM
+    t_comment
+    GROUP BY
+    t_comment.article_id
+    ) AS tco
+    ON
+    tco.article_id = ta.id
+    LEFT JOIN
+    t_classify AS tcl
+    ON
+    ta.classify_id = tcl.id
+    WHERE
+    ta.title LIKE '%java%' OR
+    ta.id LIKE '%1%' AND
+    ta.comment_status = 1 AND
+    ta.article_status = 1 AND
+    ta.post_type = 1
+    ORDER BY
+    ta.create_time DESC,
+    ta.priority ASC-->
+</mapper>

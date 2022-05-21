@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: blogex-upload
+  cloud:
+    nacos:
+      discovery:
+        server-addr: @spring.cloud.nacos.server-addr@
+        namespace: @spring.cloud.nacos.namespace@
+      config:
+        server-addr: @spring.cloud.nacos.server-addr@
+        namespace: @spring.cloud.nacos.namespace@
+        file-extension: @spring.cloud.nacos.config.file-extension@
+  profiles:
+    active: @spring.profiles.active@ #Data ID = ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>系统设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.7/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layui-v2.5.7/css/modules/layer/default/layer.css" media="all">
+    <style>
+        .layui-form-pane .layui-form-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar_image {
+            -webkit-text-size-adjust: 100%;
+            font: 14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+            font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            text-align: center;
+            color: #3d4450;
+            max-width: 100%;
+            vertical-align: middle;
+            border: 0;
+            overflow: hidden;
+            font-size: 12px;
+            border-radius: 50%;
+            height: 140px;
+            width: 140px;
+            display: block;
+            transition: transform .3s;
+            margin: 2px auto 2px;
+        }
+
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<div id="main-content">
+    <div style="padding: 20px; background-color: #F2F2F2;">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">博主名</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="userName" v-model="bloggerInfo.userName" required
+                                           lay-verify="required" value="" placeholder="(必填)博主名" autocomplete="off"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">githubUrl</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="githubUrl" v-model="bloggerInfo.githubUrl" required
+                                           lay-verify="required" value=""
+                                           placeholder="(必填)githubUrl地址,没有就填https://gitee.com/" autocomplete="off"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">个性签名</label>
+                                <div class="layui-input-block">
+                                    <input type="text" v-model="bloggerInfo.signature" name="signature" required
+                                           lay-verify="required" placeholder="编写你的个性签名吧" autocomplete="off"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md2">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <img v-bind:src="bloggerInfo.avatarUrl" class="avatar_image"/>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md8">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">头像url</label>
+                                <div class="layui-input-block">
+                                    <input v-model="bloggerInfo.avatarUrl" type="text" name="avatarUrl" required
+                                           lay-verify="required" placeholder="请输入头像地址" autocomplete="off"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md2">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="" onsubmit="return false">
+                            <div class="layui-form-item">
+                                <button type="button" class="layui-btn" id="updatePreviewButton">
+                                    <i class="layui-icon"></i>
+                                    上传预览
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md10">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">备案号</label>
+                                <div class="layui-input-block">
+                                    <input v-model="bloggerInfo.recordNumber" type="text" name="recordNumber"
+                                           required lay-verify="required" placeholder="请输入备案号" autocomplete="off"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">关于我简介</label>
+                                <div class="layui-input-block">
+                                    <textarea id="introductionArea" name="content" class="layui-textarea"
+                                              placeholder="多个关键词用英文状态 ; 号分割">
+                                        {{bloggerInfo.bloggerDetail}}
+                                    </textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">上一次修改时间</label>
+                                <div class="layui-input-block">
+                                    <input v-model="bloggerInfo.updateTime" type="text"
+                                           class="layui-input layui-disabled" disabled>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body" style="text-align: center">
+                        <button class="layui-btn" v-on:click=updateBlogInfo()>确认保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="../lib/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="../lib/tinymce/jquery.tinymce.min.js"></script>
+<script src="../lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+<script src="../lib/axios/axios.min.js"></script>
+<script src="../lib/vue-module/vue.js"></script>
+<script src="../js/main.js"></script>
+<script src="../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script>
+    const vueObject = new Vue({
+        el: "#main-content",
+        data: {
+            bloggerInfo: {
+                id: 0,
+                userName: "",
+                avatarUrl: "",
+                signature: "",
+                githubUrl: "",
+                recordNumber: "",
+                bloggerDetail: "",
+                createTime: "",
+                updateTime: ""
+            }
+        },
+        methods: {
+            updateBlogInfo: function () {
+                this.bloggerInfo.bloggerDetail = tinymce.activeEditor.getContent();
+                axiosPostFunction("/api/bloggerInfo/authApi/update", this.bloggerInfo, true).then((responseData) => {
+                    if (responseData) {
+                        layer.alert(responseData, {icon: 1, skin: 'layui-layer-molv', closeBtn: 0, anim: 4});
+                    }
+                }).catch(function (err) {console.warn(err);});
+            },
+        },
+        mounted() {
+            let _that = this;
+            axiosGetFunction("/api/bloggerInfo/openApi/getBlogInfo").then(function (response) {
+                _that.bloggerInfo = response;
+            }).catch(function (err) {
+                console.warn(err)
+            });
+            tinymce.init({
+                selector: '#introductionArea',
+                height: 400,
+                menubar: true,
+                language: 'zh_CN',
+                codesample_languages: [
+                    {text: 'HTML/XML', value: 'markup'},
+                    {text: 'JavaScript', value: 'javascript'},
+                    {text: 'CSS', value: 'css'},
+                    {text: 'PHP', value: 'php'},
+                    {text: 'Ruby', value: 'ruby'},
+                    {text: 'Python', value: 'python'},
+                    {text: 'Java', value: 'java'},
+                    {text: 'C', value: 'c'},
+                    {text: 'C#', value: 'csharp'},
+                    {text: 'C++', value: 'cpp'}
+                ],
+                textpattern_patterns: [
+                    {start: '*', end: '*', format: 'italic'},
+                    {start: '**', end: '**', format: 'bold'},
+                    {start: '#', format: 'h1'},
+                    {start: '##', format: 'h2'},
+                    {start: '###', format: 'h3'},
+                    {start: '####', format: 'h4'},
+                    {start: '#####', format: 'h5'},
+                    {start: '######', format: 'h6'},
+                    {start: '1. ', cmd: 'InsertOrderedList'},
+                    {start: '* ', cmd: 'InsertUnorderedList'},
+                    {start: '- ', cmd: 'InsertUnorderedList'}
+                ],
+                codesample_content_css: '/css/prism.css',
+                plugins: [
+                    'charmap emoticons quickbars wordcount pagebreak textpattern advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks fullscreen indent2em importword layout letterspacing',
+                    'insertdatetime media table code codesample toc autosave kityformula-editor'
+                ],
+                toolbar: 'undo redo | bold italic indent2em letterspacing|importword kityformula-editor layout| alignleft aligncenter alignright alignjustify | bullist numlist |image code media codesample toc restoredraft pagebreak wordcount emoticons charmap searchreplace',
+                powerpaste_allow_local_images: true,
+                autosave_ask_before_unload: true,
+                powerpaste_word_import: 'prompt',
+                powerpaste_html_import: 'prompt',
+                paste_data_images: true,
+                images_upload_credentials: true,
+                images_upload_handler: function (blobInfo, success, failure) {
+                    let file = blobInfo.blob();
+                    axiosUploadFile("/uploads/upload/authApi/image", file, file.name).then(function (response) {
+                        if (response) {
+                            success(response);
+                        } else {
+                            failure("error upload Image!");
+                        }
+                    }).catch(function (reason) {
+                        failure('出错原因:' + reason);
+                    })
+                }
+            });
+
+        },
+        created() {
+
+        }
+    });
+
+
+    layui.use(['upload', 'form'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            layer = layui.layer,
+            upload = layui.upload;
+        let token = getToken();
+
+        upload.render({
+            elem: '#updatePreviewButton',
+            url: apiBaseUrl + '/uploads/upload/authApi/image',
+            method: 'POST',
+            headers: {
+                Authorization: token
+            },
+            exts: 'jpg|jpeg|gif|png|ico|webp',
+            multiple: false,
+            auto: true,
+            accept: 'file',
+            done: function (response, index, upload) {
+                console.log(response);
+                let respData = response.data;
+                let respCode = response.code;
+                let message = response.message;
+                if (respCode == 200) {
+                    layer.msg('上传成功');
+                    vueObject.bloggerInfo.avatarUrl = respData;
+                } else if (respCode == 400) {
+                    layer.msg("客户端错误：" + respCode + ":" + message, {icon: 5, time: 4000});
+                } else if (respCode == 401 || respCode == 403 || respCode == 500) {
+                    layer.msg('msg：' + respCode + ":" + message, {icon: 5, time: 4000});
+                } else if (respCode == 402) {
+                    layer.msg('认证失败，msg：' + respCode + ":" + message, {icon: 5, time: 4000});
+                } else if (respCode == 302) {
+                    location.href = "../adminLogin.html";
+                } else {
+                    console.log(response);
+                }
+            },
+            error: function (index, upload) {
+                layer.msg('上传文件失败', {icon: 5, time: 4000});
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

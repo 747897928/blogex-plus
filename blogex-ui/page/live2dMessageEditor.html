@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>修改live2d词库</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.7/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layer-v3.5.1/layer/theme/default/layer.css" media="all">
+    <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <style>
+        [v-cloak] {
+            display: none !important;
+        }
+
+    </style>
+</head>
+<body>
+<div id="main-content">
+    <div style="padding: 8px; background-color: #F2F2F2;">
+        <div class="layui-row layui-col-space4">
+            <div class="layui-col-md12">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">编辑看板娘词库</label>
+                        <div class="layui-input-block">
+                            <!--代码输入框（注意请务必设置高度，否则无法显示）-->
+                            <pre id="code" class="ace_editor" style="height:650px">
+                                <textarea class="ace_text-input">
+
+                                </textarea>
+                            </pre>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body" style="text-align: center">
+                        <button class="layui-btn" id="beautifyJsonButton"><i class="fa fa-magic"></i>&nbsp;json美化</button>
+                        <button class="layui-btn" id="saveJsonButton"><i class="layui-icon layui-icon-release"></i>&nbsp;确认保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="../lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+<script src="../lib/axios/axios.min.js"></script>
+<script src="../lib/vue-module/vue.js"></script>
+<script src="../js/main.js"></script>
+<script src="../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-language_tools.js" type="text/javascript"
+        charset="utf-8"></script>-->
+<script src="../lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="../lib/ace/ext-language_tools.js" type="text/javascript"
+        charset="utf-8"></script>
+<script>
+
+    //初始化对象
+    const editor = ace.edit("code");
+    //设置风格和语言（更多风格和语言，请到github上相应目录查看）
+    theme = "vibrant_ink"
+    language = "json"
+
+    editor.setTheme("ace/theme/" + theme);
+    editor.session.setMode("ace/mode/" + language);
+
+    //字体大小
+    editor.setFontSize(15);
+
+    //设置只读（true时只读，用于展示代码）
+    editor.setReadOnly(false);
+
+    //自动换行,设置为off关闭
+    editor.setOption("wrap", "free")
+
+    editor.setShowPrintMargin(false);
+
+    //启用提示菜单
+    ace.require("ace/ext/language_tools");
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+    });
+
+    editor.setValue('');
+
+    window.onbeforeunload = () => {
+        editor.destroy();
+    };
+
+    $('#saveJsonButton').click(() => {
+        //获取编辑器内容
+        let json = editor.getValue();
+        console.log(json);
+        try{
+            let jsonObject = JSON.parse(json);
+            axiosPostFunction("/uploads/live2d/openApi/editModelMessage", jsonObject, true).then((response) => {
+                layer.alert('保存成功！', {icon: 1, skin: 'layui-layer-molv', closeBtn: 0, anim: 4});
+            }).catch(function (err) {
+                console.warn(err);
+            });
+        }catch (error){
+            layer.msg(error.toString(), {icon: 5, time: 4000});
+        }
+
+    });
+
+    $('#beautifyJsonButton').click(() => {
+        let json = editor.getValue();
+        let jsonStr = JSON.stringify(JSON.parse(json), null, 4);
+        editor.setValue(jsonStr);
+    });
+
+    axiosGetFunction("/uploads/live2d/openApi/getModelMessage", null, false).then((responseData) => {
+        if (responseData) {
+            editor.setValue(JSON.stringify(JSON.parse(responseData), null, 4));
+        }
+    }).catch(function (err) {
+        console.warn(err);
+    });
+
+
+</script>
+</html>

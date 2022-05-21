@@ -1,4 +1,4 @@
-# blogex-plus
+# blogex
 
 #### Description
 一款java版的个人博客

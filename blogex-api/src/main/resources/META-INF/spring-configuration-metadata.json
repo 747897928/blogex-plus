@@ -1,0 +1,39 @@
+{
+  "properties": [
+    {
+      "name": "blogex.mail.send.admin",
+      "type": "java.lang.Boolean",
+      "description": "有评论者回复评论发送邮件给管理员"
+    },
+    {
+      "name": "blogex.mail.visitor.reply",
+      "type": "java.lang.Boolean",
+      "description": "评论者之间回复是否发邮件"
+    },
+    {
+      "name": "blogex.swagger.show",
+      "type": "java.lang.Boolean",
+      "description": "swagger文档是否对外暴露"
+    },
+    {
+      "name": "blogex.mail.username",
+      "type": "java.lang.String",
+      "description": "用于发邮件账号"
+    },
+    {
+      "name": "blogex.mail.password",
+      "type": "java.lang.String",
+      "description": "用于发邮件密码"
+    },
+    {
+      "name": "blogex.mail.host",
+      "type": "java.lang.String",
+      "description": "blogex.mail.host."
+    },
+    {
+      "name": "blogex.mail.port",
+      "type": "java.lang.Integer",
+      "description": "blogex.mail.port."
+    }
+  ]
+}

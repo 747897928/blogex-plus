@@ -1,0 +1,226 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "124414",
+      "name": "安卓端浏览器打开",
+      "font_class": "anzhuoduanliulanqidakai",
+      "unicode": "e6cd",
+      "unicode_decimal": 59085
+    },
+    {
+      "icon_id": "124415",
+      "name": "ios浏览器打开",
+      "font_class": "iosliulanqidakai",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
+      "icon_id": "383026",
+      "name": "群蜂系统设置",
+      "font_class": "xitongshezhi",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
+      "icon_id": "594378",
+      "name": "评论",
+      "font_class": "pinglun",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "836716",
+      "name": "linux",
+      "font_class": "linux",
+      "unicode": "e765",
+      "unicode_decimal": 59237
+    },
+    {
+      "icon_id": "837331",
+      "name": "windows",
+      "font_class": "windows",
+      "unicode": "e86f",
+      "unicode_decimal": 59503
+    },
+    {
+      "icon_id": "1005779",
+      "name": "UC浏览器",
+      "font_class": "changyonglogo31",
+      "unicode": "e718",
+      "unicode_decimal": 59160
+    },
+    {
+      "icon_id": "1017255",
+      "name": "安卓",
+      "font_class": "anzhuo",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "1347460",
+      "name": "360chrome",
+      "font_class": "chrome",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "1347462",
+      "name": "360-o",
+      "font_class": "-o",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "1420800",
+      "name": "IOS",
+      "font_class": "ios",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "2087546",
+      "name": "草稿",
+      "font_class": "caogao",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "2506210",
+      "name": "系统消息",
+      "font_class": "xitongxiaoxi",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "3216618",
+      "name": "浏览器",
+      "font_class": "liulanqi",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "4784078",
+      "name": "草稿箱",
+      "font_class": "caogaoxiang",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "4893441",
+      "name": "浏览器",
+      "font_class": "liulanqi1",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "4936952",
+      "name": "IE",
+      "font_class": "IE",
+      "unicode": "e87a",
+      "unicode_decimal": 59514
+    },
+    {
+      "icon_id": "5858485",
+      "name": "浏览器",
+      "font_class": "liulanqi2",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "5961392",
+      "name": "mysql",
+      "font_class": "mysql",
+      "unicode": "ec6d",
+      "unicode_decimal": 60525
+    },
+    {
+      "icon_id": "6965101",
+      "name": "系统模块",
+      "font_class": "xitongmokuai",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "8225385",
+      "name": "系统日志",
+      "font_class": "xitongrizhi",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "9344210",
+      "name": "信息化系统权限申请流程",
+      "font_class": "xinxihuaxitongquanxianshenqingliucheng",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "11882879",
+      "name": "bg-ie-browser",
+      "font_class": "bg-ie-browser",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "11891797",
+      "name": "ie-browser",
+      "font_class": "ie-browser",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "12103015",
+      "name": "模型",
+      "font_class": "moxing",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "18211365",
+      "name": "谷歌浏览器",
+      "font_class": "gugeliulanqi",
+      "unicode": "e7ad",
+      "unicode_decimal": 59309
+    },
+    {
+      "icon_id": "19447832",
+      "name": "谷歌浏览器",
+      "font_class": "chrome1",
+      "unicode": "eaa9",
+      "unicode_decimal": 60073
+    },
+    {
+      "icon_id": "19447834",
+      "name": "谷歌浏览器",
+      "font_class": "chrome-fill",
+      "unicode": "eaaa",
+      "unicode_decimal": 60074
+    },
+    {
+      "icon_id": "21053806",
+      "name": "其他操作系统",
+      "font_class": "qitacaozuoxitong",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "21053808",
+      "name": "操作系统",
+      "font_class": "caozuoxitong",
+      "unicode": "e687",
+      "unicode_decimal": 59015
+    },
+    {
+      "icon_id": "24268484",
+      "name": "浏览器1-面型",
+      "font_class": "liulanqi1-mianxing",
+      "unicode": "e6e5",
+      "unicode_decimal": 59109
+    }
+  ]
+}

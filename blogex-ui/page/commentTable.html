@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>评论管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.7/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layer-v3.5.1/layer/theme/default/layer.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">评论者名：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="searchKeyInput" id="searchKeyInput" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除评论
+                </button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">回复</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+</div>
+<script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="../lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
+<script src="../lib/axios/axios.min.js"></script>
+<script src="../lib/vue-module/vue.js"></script>
+<script src="../js/main.js"></script>
+<script src="../lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        let $ = layui.jquery,
+            form = layui.form,
+            commentTable = layui.table;
+        commentTable.render({
+            elem: '#currentTableId',
+            url: apiBaseUrl + '/api/comment/openApi/listPage',
+            toolbar: '#toolbarDemo',
+            method: 'POST',
+            contentType: 'application/json',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            headers: {
+                Authorization: getToken(),
+            },
+            where: {
+                /*接口的其它参数*/
+                searchKey: "",
+            },
+            request: {
+                pageName: 'pageNo',/*页码的参数名称，默认：page*/
+                limitName: 'pageSize',/*每页数据量的参数名，默认：limit*/
+            },
+            response: {
+                /*请注意，这里处理的是parseData后的json数据，而非接口返回后的数据*/
+                statusName: 'code', /*规定数据状态的字段名称，默认：code*/
+                statusCode: 200, /*规定成功的状态码，默认：0*/
+                msgName: 'msg', /*规定状态信息的字段名称，默认：msg*/
+                countName: 'count', /*规定数据总数的字段名称，默认：count*/
+                dataName: 'data', /*规定数据列表的字段名称，默认：data*/
+            },
+            parseData: function (res) {
+                /*res 即为原始返回的数据*/
+                return {
+                    "code": res.code, /*解析接口状态*/
+                    "msg": res.message, /*解析提示文本*/
+                    "count": res.data.total, /*解析数据长度*/
+                    "data": res.data.list /*解析数据列表*/
+                };
+            },
+            cols: [[
+                {type: "checkbox", width: 50, fixed: "left"},
+                {field: 'id', width: 80, title: 'id'},
+                {field: 'articleId', width: 100, title: '文章id'},
+                {field: 'parentId', width: 100, title: '父评论id'},
+                {
+                    field: 'pageType', width: 100, title: '页面类型', templet: function (d) {
+                        if (d.pageType === 0) {
+                            return "文章评论";
+                        } else if (d.pageType === 1) {
+                            return "关于我评论";
+                        } else if (d.pageType === 2) {
+                            return "友联评论";
+                        }
+                    }
+                },
+                {field: 'userName', width: 150, title: '用户名'},
+                {field: 'userIp', width: 150, title: '用户Ip'},
+                {field: 'browserName', width: 150, title: '用户的浏览器名'},
+                {field: 'userOs', width: 150, title: '用户os'},
+                {field: 'userEmail', width: 150, title: '用户的邮箱'},
+                {field: 'userAvatarUrl', width: 150, title: '用户头像url'},
+                {field: 'commentContent', width: 200, title: '评论内容'},
+                {field: 'userAgent', width: 100, title: 'userAgent'},
+                {field: 'createTime', width: 200, title: '创建时间'},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 15,
+            page: true
+        });
+
+        /*监听搜索操作*/
+        form.on('submit(data-search-btn)', function (data) {
+            /*let result = JSON.stringify(data.field);*/
+            let searchKey = $('#searchKeyInput').val();
+            /*执行搜索重载*/
+            commentTable.reload('currentTableId', {
+                url: apiBaseUrl + '/api/comment/openApi/listPage',
+                method: 'POST',
+                contentType: 'application/json',
+                page: {
+                    curr: 1
+                },
+                headers: {
+                    Authorization: getToken(),
+                },
+                request: {
+                    pageName: 'pageNo',/*页码的参数名称，默认：page*/
+                    limitName: 'pageSize',/*每页数据量的参数名，默认：limit*/
+                },
+                response: {
+                    /*请注意，这里处理的是parseData后的json数据，而非接口返回后的数据*/
+                    statusName: 'code', /*规定数据状态的字段名称，默认：code*/
+                    statusCode: 200, /*规定成功的状态码，默认：0*/
+                    msgName: 'msg', /*规定状态信息的字段名称，默认：msg*/
+                    countName: 'count', /*规定数据总数的字段名称，默认：count*/
+                    dataName: 'data', /*规定数据列表的字段名称，默认：data*/
+                },
+                parseData: function (res) {
+                    /*res 即为原始返回的数据*/
+                    return {
+                        "code": res.code, /*解析接口状态*/
+                        "msg": res.message, /*解析提示文本*/
+                        "count": res.data.total, /*解析数据长度*/
+                        "data": res.data.list /*解析数据列表*/
+                    };
+                },
+                where: {
+                    /*接口的其它参数*/
+                    searchKey: searchKey,
+                },
+            }, 'data');
+            return false;
+        });
+
+
+        /*监听单元格编辑事件*/
+        /*commentTable.on('edit(currentTableFilter)', function (obj) {
+            console.log(obj);
+            /!*当前修改的tr对象*!/
+            console.log(obj.data);
+            /!*修改后的值*!/
+            console.log(obj.value);
+            /!*得到修改的字段名*!/
+            console.log(obj.field);
+        });*/
+
+        /**
+         * toolbar监听事件
+         */
+        commentTable.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'delete') {  // 监听删除操作
+                layer.confirm('真的删除行么', function (index) {
+                    let arr = [];
+                    let checkStatus = commentTable.checkStatus('currentTableId')
+                        , data = checkStatus.data;
+                    for (let i in data) {
+                        /*console.log(data[i].id)*/
+                        arr.push(data[i].id)
+                    }
+                    console.log(arr);
+                    axiosDeleteFunction('/api/comment/authApi/batch', arr, true).then((responseData) => {
+                        if (responseData) {
+                            layer.close(index)
+                            layer.alert(responseData, {
+                                icon: 1,
+                                skin: 'layui-layer-molv',
+                                closeBtn: 0,
+                                anim: 4
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }).catch(function (err) {
+                        layer.alert("删除失败:" + err);
+                    });
+                });
+            }
+        });
+
+        //监听表格复选框选择
+        commentTable.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        commentTable.on('tool(currentTableFilter)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    let arr = new Array(1);
+                    arr[0] = data.id;
+                    axiosDeleteFunction('/api/comment/authApi/batch', arr, true).then((responseData) => {
+                        if (responseData) {
+                            layer.close(index)
+                            layer.alert(responseData, {
+                                icon: 1,
+                                skin: 'layui-layer-molv',
+                                closeBtn: 0,
+                                anim: 4
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }).catch(function (err) {
+                        layer.alert("删除失败:" + err);
+                    });
+                });
+            } else if (obj.event === 'edit') {
+                let index = layer.open({
+                    title: '回复',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['auto', 'auto'],
+                    content: '        <fieldset class="table-search-fieldset">\n' +
+                        '            <legend>回复评论</legend>\n' + '<div id="addComment">\n' +
+                        '                <div class="layui-row layui-col-space15">\n' +
+                        '                    <div class="layui-col-md6">\n' +
+                        '                        <div class="layui-card">\n' +
+                        '                            <div class="layui-card-body">\n' +
+                        '                                <form class="layui-form layui-form-pane" action="">\n' +
+                        '                                    <div class="layui-form-item">\n' +
+                        '                                        <label class="layui-form-label">评论id</label>\n' +
+                        '                                        <div class="layui-input-block">\n' +
+                        '                                            <input type="text" name="id" id="commentId" value="' + data.id + '" cautocomplete="off" class="layui-input layui-disabled" disabled>\n' +
+                        '                                        </div>\n' +
+                        '                                    </div>\n' +
+                        '                                </form>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="layui-col-md6">\n' +
+                        '                        <div class="layui-card">\n' +
+                        '                            <div class="layui-card-body">\n' +
+                        '                                <form class="layui-form layui-form-pane" action="">\n' +
+                        '                                    <div class="layui-form-item" pane>\n' +
+                        '                                        <label class="layui-form-label">评论者</label>\n' +
+                        '                                        <div class="layui-input-block">\n' +
+                        '                                            <input type="text" name="userName" id="userName" value="' + data.userName + '" autocomplete="off" class="layui-input layui-disabled" disabled>\n' +
+                        '                                        </div>\n' +
+                        '                                    </div>\n' +
+                        '                                </form>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="layui-col-md12">\n' +
+                        '                        <div class="layui-card">\n' +
+                        '                            <div class="layui-card-body">\n' +
+                        '                                     <textarea id="commentTextarea" style="width: 100%;height: 100px" class="OwO-textarea" placeholder="「 人生一世，草木一秋，皆是过程。美与可爱，有心皆懂 」">' + '@' + data.userName + ': ' + '</textarea>\n' +
+                        '                                <div class="OwO"></div>\n' +
+                        '                            </div>\n' +
+                        '                            <center>\n' +
+                        '                                <button type="button" id="reply-comment-btn" class="layui-btn" style="margin-bottom: 10px">\n' +
+                        '                                    <i class="layui-icon layui-icon-release"></i>回复评论\n' +
+                        '                                </button>\n' +
+                        '                            </center>\n' +
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '            </div>' +
+                        '        </fieldset>',
+                });
+                $('#reply-comment-btn').click(function () {
+                    let parentId = data.id;
+                    let pageType = data['pageType'];
+                    let articleId = data.articleId;
+                    let commentText = $("#commentTextarea").val();
+                    let queryData = {
+                        "articleId": articleId,
+                        "parentId": parentId,
+                        "commentContent": commentText,
+                        "pageType": pageType,
+                        "userName": "假数据",
+                        "userEmail": "123456@163.com"
+                    };
+                    axiosPostFunction('/api/comment/authApi/blogger/reply', queryData, true).then((responseData) => {
+                        if (responseData) {
+                            layer.alert(responseData, {
+                                icon: 1,
+                                skin: 'layui-layer-molv',
+                                closeBtn: 0,
+                                anim: 4
+                            }, function () {
+                                layer.closeAll();
+                                location.reload();
+                            });
+                        }
+                    }).catch(function (err) {
+                        layer.alert("回复失败:" + err, function () {
+                            location.reload();
+                        });
+                    });
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }
+        });
+    });
+</script>
+<script>
+</script>
+</body>
+</html>

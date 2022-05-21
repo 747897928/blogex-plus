@@ -1,0 +1,61 @@
+.bg {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-image: url(../images/background1.jpeg);
+    background-size: cover;
+    background-position: center center;
+    z-index: -1;
+    animation: imageAnimation 36s linear infinite 0s;
+    opacity: 0
+}
+
+.bg--1 {
+    background-image: url(../images/background2.jpeg);
+    animation-delay: 6s
+}
+
+.bg--2 {
+    background-image: url(../images/background3.jpeg);
+    animation-delay: 12s
+}
+
+.bg--3 {
+    background-image: url(../images/background4.jpeg);
+    animation-delay: 18s
+}
+
+.bg--4 {
+    background-image: url(../images/background5.jpeg);
+    animation-delay: 24s
+}
+
+.bg--5 {
+    background-image: url(../images/background6.jpeg);
+    animation-delay: 30s
+}
+
+@keyframes imageAnimation {
+    0% {
+        opacity: 0;
+        animation-timing-function: ease-in
+    }
+    8% {
+        opacity: 1;
+        transform: scale(1.05);
+        animation-timing-function: ease-out
+    }
+    17% {
+        opacity: 1;
+        transform: scale(1.1) rotate(0deg)
+    }
+    25% {
+        opacity: 0;
+        transform: scale(1.1) rotate(0deg)
+    }
+    100% {
+        opacity: 0
+    }
+}

@@ -1,0 +1,45 @@
+server:
+  port: 24666
+  servlet:
+    context-path: /api
+spring:
+  profiles:
+    include: email
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  jackson:
+    time-zone: "GMT+08:00"
+  redis:
+    database: @spring.redis.database@
+    port: @spring.redis.port@
+#    password: @spring.redis.password@
+    host: @spring.redis.host@
+    timeout: @spring.redis.timeout@
+  datasource:
+    url: @spring.datasource.blogex.url@
+    username: @spring.datasource.blogex.username@
+    password: @spring.datasource.blogex.password@
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#logging:
+#  level:
+#    cn.edu.gxust.blogex.dao.mappers: DEBUG
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  mapper-locations: classpath:mappers/*.xml
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: countsql
+  page-size-zero: true
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 10000
+        read-timeout: 30000
