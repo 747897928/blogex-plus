@@ -10,6 +10,7 @@
         <img src="https://img.shields.io/badge/SpringBoot-2.3.9.RELEASE-green" ></img>
         <img src="https://img.shields.io/badge/SpringCloudAlibaba-2.2.4.RELEASE-brightgreen" ></img>
         <img src="https://img.shields.io/badge/vue-2.6.10-green" ></img>
+        <img src="https://img.shields.io/badge/Layui-2.5.7-blue.svg" ></img>
         <img src="https://img.shields.io/badge/mybatis--plus-3.4.1-green" ></img>
         <img src="https://img.shields.io/badge/MySQL-8.0.11-red.svg" ></img>
         <img src="https://img.shields.io/badge/Redis-6.2.6-orange.svg" ></img>
