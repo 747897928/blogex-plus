@@ -8,7 +8,6 @@
 <a target="_blank" href="https://gitee.com/guangxikejidaxue/blogex-plus">
         <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
         <img src="https://img.shields.io/badge/SpringBoot-2.3.9.RELEASE-green" ></img>
-        <img src="https://img.shields.io/badge/SpringCloudAlibaba-2.2.4.RELEASE-brightgreen" ></img>
         <img src="https://img.shields.io/badge/vue-2.6.10-green" ></img>
         <img src="https://img.shields.io/badge/Layui-2.5.7-blue.svg" ></img>
         <img src="https://img.shields.io/badge/mybatis--plus-3.4.1-green" ></img>
