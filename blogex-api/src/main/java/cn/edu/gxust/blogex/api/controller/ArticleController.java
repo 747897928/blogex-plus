@@ -32,7 +32,7 @@ import java.util.List;
 @Api(tags = "文章相关")
 @Validated
 @RestController
-@RequestMapping(value = "/article")
+@RequestMapping(value = "/api/article")
 public class ArticleController {
 
     @Resource

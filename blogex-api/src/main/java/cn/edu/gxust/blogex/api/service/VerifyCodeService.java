@@ -1,6 +1,7 @@
 package cn.edu.gxust.blogex.api.service;
 
 import cn.edu.gxust.blogex.api.dto.VerifyCodeDTO;
+import cn.edu.gxust.blogex.api.vo.VerificationVO;
 import cn.edu.gxust.blogex.api.vo.VerifyCodeVO;
 
 /**
@@ -15,4 +16,9 @@ public interface VerifyCodeService {
 
     void verifyCode(VerifyCodeDTO verifyCodeDTO);
 
+    VerificationVO sliderVerificationCode();
+
+    VerifyCodeVO getLoginImageVerifyCode();
+
+    void validateLoginCode(String codeUuid, String verifyCode);
 }

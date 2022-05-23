@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 @Api(tags = "备份相关")
 @Validated
 @RestController
-@RequestMapping(value = "/backup")
+@RequestMapping(value = "/api/backup")
 public class BackUpController {
 
     @Resource

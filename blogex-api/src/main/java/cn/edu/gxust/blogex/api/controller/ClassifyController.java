@@ -32,7 +32,7 @@ import java.util.List;
 @Api(tags = "分类相关")
 @Validated
 @RestController
-@RequestMapping(value = "/classify")
+@RequestMapping(value = "/api/classify")
 public class ClassifyController {
 
     @Resource

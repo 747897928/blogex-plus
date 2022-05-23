@@ -31,7 +31,7 @@ import java.util.List;
 @Api(tags = "友联相关")
 @Validated
 @RestController
-@RequestMapping(value = "/blogLink")
+@RequestMapping(value = "/api/blogLink")
 public class BlogLinkController {
 
     @Resource

@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.edu.gxust.blogex.api.config.QiNiuAutoConfiguration,\
+  cn.edu.gxust.blogex.api.config.LocalUploadAutoConfiguration

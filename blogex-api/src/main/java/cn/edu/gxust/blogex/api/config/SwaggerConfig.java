@@ -2,7 +2,6 @@ package cn.edu.gxust.blogex.api.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -18,7 +17,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableKnife4j
 @EnableSwagger2
-//@RefreshScope//只需要在需要动态读取配置的类上添加此注解就可以
 public class SwaggerConfig {
 
     @Value("${blogex.swagger.show:false}")

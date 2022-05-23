@@ -5,9 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>blogex-api</module>
-        <module>blogex-gateway</module>
         <module>blogex-common</module>
-        <module>blogex-upload</module>
         <module>blogex-dao</module>
     </modules>
     <parent>
@@ -29,8 +27,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.3.9.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.4.RELEASE</spring-cloud-alibaba.version>
         <hutool.version>5.5.9</hutool.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <mybatis.version>2.1.4</mybatis.version>
@@ -40,7 +36,6 @@
         <jsoup.version>1.14.3</jsoup.version>
         <pagehelper.version>1.4.1</pagehelper.version>
         <rometools.version>1.8.0</rometools.version>
-        <!--<mysql.version>5.1.49</mysql.version>-->
         <mysql.version>8.0.11</mysql.version>
         <knife4j.version>3.0.3</knife4j.version>
         <zip4j.version>2.10.0</zip4j.version>
@@ -145,23 +140,6 @@
                 <version>${commons-net.version}</version>
             </dependency>
 
-            <!--spring-cloud-->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--spring-cloud-alibaba-->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -181,14 +159,6 @@
                 <version>${mybatis.version}</version>
             </dependency>
 
-            <!--整合Knife4j-->
-
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
@@ -198,18 +168,6 @@
             <dependency>
                 <groupId>cn.edu.gxust</groupId>
                 <artifactId>blogex-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.edu.gxust</groupId>
-                <artifactId>blogex-gateway</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.edu.gxust</groupId>
-                <artifactId>blogex-upload</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -1,10 +1,10 @@
 server:
-  port: 24666
   servlet:
-    context-path: /api
+    context-path: /
+  port: 20010
 spring:
   profiles:
-    include: email
+    include: email,blogadmin
   servlet:
     multipart:
       enabled: true
@@ -37,9 +37,9 @@ pagehelper:
   support-methods-arguments: true
   params: countsql
   page-size-zero: true
-feign:
-  client:
-    config:
-      default:
-        connect-timeout: 10000
-        read-timeout: 30000
+qiniu:
+  enable: @qiniu.enable@
+  access-key: @qiniu.accessKey@
+  secret-key: @qiniu.secretKey@
+  bucket: @qiniu.bucket@
+  domain-of-bucket: @qiniu.domain-of-bucket@

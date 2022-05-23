@@ -1,4 +1,5 @@
-const apiBaseUrl = "http://127.0.0.1:20010"
+/*const apiBaseUrl = "http://127.0.0.1:20010"*/
+const apiBaseUrl = "../"
 
 const axiosInstance = axios.create({
     baseURL: apiBaseUrl

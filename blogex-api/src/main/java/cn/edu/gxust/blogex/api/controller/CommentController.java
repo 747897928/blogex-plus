@@ -33,7 +33,7 @@ import java.util.List;
 @Api(tags = "评论相关")
 @Validated
 @RestController
-@RequestMapping(value = "/comment")
+@RequestMapping(value = "/api/comment")
 public class CommentController {
 
     @Resource

@@ -10,17 +10,3 @@ blogex:
       reply: @blogex.mail.visitor.reply@
     send:
       admin: @blogex.mail.send.admin@
-
-#spring:
-#  mail:
-#    username: @spring.mail.username@
-#    password: @spring.mail.password@
-#    host: @spring.mail.host@
-#    properties:
-#      mail:
-#        smtp:
-#          ssl:
-#            enable: true
-#          connectiontimeout: 10000
-#          timeout: 10000
-#          writetimeout: 10000

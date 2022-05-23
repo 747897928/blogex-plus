@@ -32,7 +32,7 @@ import java.util.List;
 @Api(tags = "标签相关")
 @Validated
 @RestController
-@RequestMapping(value = "/tag")
+@RequestMapping(value = "/api/tag")
 public class TagController {
 
     @Resource

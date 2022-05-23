@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  */
 @Api(tags = "网站浏览次数")
 @RestController
-@RequestMapping(value = "/count")
+@RequestMapping(value = "/api/count")
 public class CountController {
 
     @Resource

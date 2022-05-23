@@ -31,7 +31,7 @@ import java.util.List;
 @Api(tags = "博客音乐相关")
 @Validated
 @RestController
-@RequestMapping(value = "/blogMusic")
+@RequestMapping(value = "/api/blogMusic")
 public class BlogMusicController {
 
     @Resource

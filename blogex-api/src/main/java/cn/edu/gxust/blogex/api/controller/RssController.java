@@ -18,7 +18,7 @@ import java.util.List;
 
 @Api(tags = "Rss订阅相关")
 @RestController
-@RequestMapping(value = "/rss")
+@RequestMapping(value = "/api/rss")
 public class RssController {
 
     @Resource

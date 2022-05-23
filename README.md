@@ -1,5 +1,5 @@
 <p align="center">
-	<strong>blogex是一个基于微服务架构的前后端分离个人博客系统</strong>
+	<strong>blogex是一个基于单体的前后端分离个人博客系统</strong>
 </p>
 <p align="center">
 <a target="_blank" href="https://gitee.com/guangxikejidaxue/blogex-plus/blob/master/LICENSE">

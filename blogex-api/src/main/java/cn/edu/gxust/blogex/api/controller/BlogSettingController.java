@@ -26,7 +26,7 @@ import javax.annotation.Resource;
 @Api(tags = "博客配置相关")
 @Validated
 @RestController
-@RequestMapping(value = "/blogSetting")
+@RequestMapping(value = "/api/blogSetting")
 public class BlogSettingController {
 
     @Resource

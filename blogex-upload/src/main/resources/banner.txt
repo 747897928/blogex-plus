@@ -1,9 +1,0 @@
-${AnsiColor.BRIGHT_CYAN} _     _
-${AnsiColor.BRIGHT_CYAN}| |__ | | ___   __ _  _____  __
-${AnsiColor.BRIGHT_CYAN}| '_ \| |/ _ \ / _` |/ _ \ \/ /
-${AnsiColor.BRIGHT_CYAN}| |_) | | (_) | (_| |  __/>  <
-${AnsiColor.BRIGHT_CYAN}|_.__/|_|\___/ \__, |\___/_/\_\
-${AnsiColor.BRIGHT_CYAN}               |___/
-${AnsiColor.BRIGHT_WHITE}                 (v1) @zhaoyijie
-${AnsiColor.BRIGHT_GREEN}${spring.application.name} ${AnsiColor.BRIGHT_MAGENTA}::Running SpringBoot ${spring-boot.version}
-${AnsiColor.DEFAULT}
