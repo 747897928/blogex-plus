@@ -3,7 +3,6 @@ package cn.edu.gxust.blogex.upload;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * <p>description:  </p>
@@ -12,9 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @author zhaoyijie
  * @version v1.0
  */
-@ComponentScan(basePackages = {"cn.edu.gxust.blogex"})
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"cn.edu.gxust.blogex.upload"})
 public class BlogExUploadApplication {
     public static void main(String[] args) {
         SpringApplication.run(BlogExUploadApplication.class, args);

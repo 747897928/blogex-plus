@@ -91,7 +91,7 @@ public class AsyncTaskServiceImpl implements AsyncTaskService {
                         subject = "[博客评论回复通知]Re: 关于我";
                         text = "Re: 关于我\n评论内容：" + commentPO.getCommentContent() +
                                 "\n评论者：" + commentPO.getUserName() + "\n时间:： " + commentPO.getCreateTime()
-                        + "\nURL： " + url;
+                                + "\nURL： " + url;
                         break;
                     case LINK_COMMENT:
                         String linkUrl = blogAddress + "/links.html";
@@ -103,9 +103,9 @@ public class AsyncTaskServiceImpl implements AsyncTaskService {
                     default:
                         return;
                 }
-                sendMail(subject, text, blogSetting.getBlogMailAddress());
+                sendMail(subject, text, userEmail);
             } else {
-                logger.warn("该邮箱为空或者该邮箱格式不合法，评论id：" + comment.getId());
+                logger.warn("该邮箱为空或者该邮箱格式不合法，评论id：{} ,非法邮箱：{}", comment.getId(), commentPO.getUserEmail());
             }
         } else {
             logger.debug("邮箱任务并未开启，跳过操作");

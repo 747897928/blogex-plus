@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * (BloggerInfo)表服务实现类
+ * 博主信息实现类
  *
  * @author zhaoyijie
  * @since 2022-03-20 17:11:52

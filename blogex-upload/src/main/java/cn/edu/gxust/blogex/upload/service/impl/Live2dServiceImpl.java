@@ -278,6 +278,24 @@ public class Live2dServiceImpl extends ServiceImpl<Live2dMapper, Live2dPO> imple
     @Override
     public String backupLive2d() {
         File srcFile = new File(LIVE2D_MODEL_BASE_PATH);
+        if (!srcFile.exists()) {
+            throw new ResourcesNotFoundException("文件夹不存在：" + srcFile.getAbsolutePath());
+        }
+        File[] fileList = srcFile.listFiles();
+        if (fileList == null || fileList.length == 0) {
+            throw new BlogException(srcFile.getAbsolutePath() + "下没有模型文件");
+        } else {
+            //检查一下这个路径是否有模型文件夹，加上这个校验是为了防止个别电脑如mac上的.DS_Store文件跳过了上面的校验
+            boolean haveDirectoryFlag = false;
+            for (File file : fileList) {
+                if (file.isDirectory()) {
+                    haveDirectoryFlag = true;
+                }
+            }
+            if (!haveDirectoryFlag) {
+                throw new BlogException(srcFile.getAbsolutePath() + "下没有模型文件");
+            }
+        }
         String randomString = RandomUtils.randomString(4);
         long currentTimeMillis = System.currentTimeMillis();
         File outputFile = new File("uploadsFile/" + currentTimeMillis + "_" + randomString + "_backUp/live2dAll.zip");

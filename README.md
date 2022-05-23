@@ -1,20 +1,19 @@
 <p align="center">
-	<strong>blogex-plus是一个基于微服务架构的前后端分离个人博客系统</strong>
+	<strong>blogex是一个基于微服务架构的前后端分离个人博客系统</strong>
 </p>
 <p align="center">
 <a target="_blank" href="https://gitee.com/guangxikejidaxue/blogex-plus/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/license-GPL%20v3-blue.svg" ></img>
 </a>
 <a target="_blank" href="https://gitee.com/guangxikejidaxue/blogex-plus">
-		<img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
+        <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
         <img src="https://img.shields.io/badge/SpringBoot-2.3.9.RELEASE-green" ></img>
         <img src="https://img.shields.io/badge/SpringCloudAlibaba-2.2.4.RELEASE-brightgreen" ></img>
         <img src="https://img.shields.io/badge/vue-2.6.10-green" ></img>
         <img src="https://img.shields.io/badge/Layui-2.5.7-blue.svg" ></img>
         <img src="https://img.shields.io/badge/mybatis--plus-3.4.1-green" ></img>
         <img src="https://img.shields.io/badge/MySQL-8.0.11-red.svg" ></img>
-        <img src="https://img.shields.io/badge/Redis-6.2.6-orange.svg" ></img>
-</a>
+        <img src="https://img.shields.io/badge/Redis-6.2.6-orange.svg" ></img></a>
 </p>
 
 ----
@@ -28,6 +27,7 @@
 
 # 功能简介
 
+- **多种文件存储**：七牛云、本地存储。
 - **响应式**：前端页面基于响应式设计，兼容移动端和PC端。
 - **自定义音乐栏位**：支持自定义自己的播放歌单、上传音乐文件等。
 - **自定义看板娘**：支持摆放自己的自定义的看板娘，兼容v1和v3版本的moc。
@@ -52,9 +52,6 @@
 | blogex-ui | 前端 | 原生的html |
 | blogex-gateway | 网关 | 鉴权、路由、聚合swagger |
 | blogex-upload | 上传文件模块 | 存储上传的图片、音频、压缩包 |
-
-----
-# 架构图
 
 ----
 # 部分截图（界面均为响应式）
@@ -103,18 +100,41 @@
 
 1. 程序以学习为目的，请不要作其他的用途。
 2. 数据库编码：字符集：utf8mb4 -- UTF-8 Unicode（一定得是utf8mb4，不然存不了表情，mysql5.5.3后才增加utf8mb4编码），创建数据库blogex，导入sql文件夹下的blogex.sql
-3. 配置文件修改，修改env/dev.properties，下面的配置是必须需要配置的，其他根据个人需求修改对应的配置文件
+3. 配置文件修改，修改env/dev.properties，下面的配置是必须需要配置的，其他诸如数据库账号密码，redis配置，nacos namepace addr根据个人需求修改对应的配置文件
    ```properties
     blogex.admin.userName=yourusername
     blogex.admin.passWord=yourpassword
    ```
-4. 配置完env/dev.properties后，启动nacos，redis，再将blogex-api、blogex-upload、blogex-gateway依次启动
-5. 配置blogex-ui/js/main.js内的apiBaseUrl，如果是本地测试，这个不需要配置，如果部署上服务器，需要配置
-6. 访问http://localhost:20010/uploads/blogex-ui/adminLogin.html
+   如果需要开启七牛云存储的配置，请配置以下参数：
+   ```properties
+   qiniu.enable=true
+   qiniu.accessKey=yourAccessKey
+   qiniu.secretKey=yourSecretKey
+   qiniu.bucket=yourBucket
+   qiniu.domain-of-bucket=http://xxxx.xxxx.xxxx
+   ```
+   如果需要开启邮件服务，请在管理员控制台的系统配置开启邮件服务，并且配置以下参数：
+   ```properties
+   spring.mail.username=xxxxxx@163.com
+   spring.mail.password=xxxxxxx
+   spring.mail.host=smtp.163.com
+   spring.mail.port=465
+   blogex.mail.send.admin=true
+   blogex.mail.visitor.reply=false
+   ```
+   blogex.mail.send.admin指收到回复的时候是否发送给管理员邮件，blogex.mail.visitor.reply指游客之前评论是否发送邮件通知对方，这两个值都可以不配置，默认是false
+5. 配置完env/dev.properties后，启动nacos，redis，再将blogex-api、blogex-upload、blogex-gateway依次启动
+6. 配置blogex-ui/js/main.js内的apiBaseUrl，如果是本地测试，这个不需要配置，如果部署上服务器，需要配置
+7. 访问http://localhost:20010/uploads/blogex-ui/adminLogin.html
 
-7. 登录管理系统，配置系统参数和博主信息
-8. 需要注意的是系统设置中网站域名这个参数非常重要，在文件存储模块拼接绝对路径的前缀的时候需要用到，博客的域名同样重要，在发送邮件的时候， 博客域名用于拼接文章详情页的url，根据个人网站域名配置即可。
-
+8. 登录管理系统，配置系统参数和博主信息
+9. 需要注意的是系统设置中接口域名这个参数用于文件存储模块本地文件上传的时候拼接路径前缀，博客的域名同样重要，在发送邮件的时候， 博客域名用于拼接文章详情页的url，根据个人网站域名配置即可。
+10. 图片上传和音乐上传可以走其他文件存储方式，但是live2d目前只能走本地文件存储方式。
 ----
 
+#### 部署说明
+1. 前端这块只需要修改blogex-ui/js/main.js内的apiBaseUrl，放在tomcat，blogex-upload的父文件夹下，github，gitee上都可以，只要apiBaseUrl配置正确，前端放在哪里都没问题，最多可能出现跨域的问题。
+2. 后端，配置完数据库，redis，nacos，博主账号密码，run起来配置博主信息，系统信息就完事了，接下来添加分类，标签就可以开始写自己的文章了。
 
+#### 其他
+>nacos分支作为我实践nacos的产物，后来发现分布式太重了，对于一个个人博客不至于上分布式，所以这个分支不是主要维护的分支。如果希望部署在1核2G的服务器上请去单体分支看看。

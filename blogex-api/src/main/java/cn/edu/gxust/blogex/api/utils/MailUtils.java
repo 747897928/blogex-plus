@@ -30,13 +30,25 @@ public class MailUtils {
 
     static {
         Properties javaMailProperties = new Properties();
-        javaMailProperties.setProperty("mail.smtp.ssl.enable","true");
-        javaMailProperties.setProperty("mail.smtp.connectiontimeout","10000");
-        javaMailProperties.setProperty("mail.smtp.timeout","10000");
-        javaMailProperties.setProperty("mail.smtp.writetimeout","100000");
+        javaMailProperties.setProperty("mail.smtp.ssl.enable", "true");
+        javaMailProperties.setProperty("mail.smtp.connectiontimeout", "10000");
+        javaMailProperties.setProperty("mail.smtp.timeout", "10000");
+        javaMailProperties.setProperty("mail.smtp.writetimeout", "100000");
         javaMailSender.setJavaMailProperties(javaMailProperties);
     }
 
+    /**
+     * 发送邮件
+     *
+     * @param host     主机
+     * @param port     端口
+     * @param userName 账号
+     * @param passWord 密码
+     * @param toArr    接受者
+     * @param ccArr    抄送者
+     * @param subject  邮件主题(标题)
+     * @param content  邮件内容
+     */
     public static void sendMail(String host, int port, String userName, String passWord, String[] toArr, String[] ccArr, String subject, String content) {
         javaMailSender.setHost(host);
         javaMailSender.setPort(port);
@@ -110,7 +122,7 @@ public class MailUtils {
         return javaMailSender;
     }
 
-    public static void setJavaMailProperties(Properties javaMailProperties){
+    public static void setJavaMailProperties(Properties javaMailProperties) {
         javaMailSender.setJavaMailProperties(javaMailProperties);
     }
 

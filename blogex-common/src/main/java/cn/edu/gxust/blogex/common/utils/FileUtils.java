@@ -39,7 +39,7 @@ public class FileUtils {
         }
     }
 
-    public static void writeBytesToLocal(InputStream inputStream, File destFile) throws IOException {
+    public static void writeFromStreamToLocal(InputStream inputStream, File destFile) throws IOException {
         File parentFile = destFile.getParentFile();
         if (!parentFile.exists()) {
             parentFile.mkdirs();

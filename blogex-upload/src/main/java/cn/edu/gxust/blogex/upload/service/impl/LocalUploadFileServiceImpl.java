@@ -7,9 +7,6 @@ import cn.edu.gxust.blogex.upload.service.UploadFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.io.File;
 import java.util.Arrays;
 import java.util.UUID;
@@ -18,7 +15,6 @@ import java.util.UUID;
  * @author zhaoyijie
  * @since 2022/2/26 21:54
  */
-@Service
 public class LocalUploadFileServiceImpl implements UploadFileService {
 
     private static final Logger logger = LoggerFactory.getLogger(LocalUploadFileServiceImpl.class);
@@ -33,8 +29,11 @@ public class LocalUploadFileServiceImpl implements UploadFileService {
      */
     private final String[] AUDIO_FILE_EXTENSION = new String[]{".mp3", ".m4a", ".cda", ".wav", ".aif", ".aiff", "mid", "wma", "ra", "vqf", "ape"};
 
-    @Resource
-    private BlogDomainService blogDomainService;
+    private final BlogDomainService blogDomainService;
+
+    public LocalUploadFileServiceImpl(BlogDomainService blogDomainService){
+        this.blogDomainService = blogDomainService;
+    }
 
     @Override
     public String uploadImage(FilePart filePart) {

@@ -67,9 +67,8 @@ public class ArticleTagMapServiceImpl extends ServiceImpl<ArticleTagMapMapper, A
 
     @Override
     public Pagination<Integer> listPageArticleIdByTagId(Integer tagId, long pageNo, long pageSize) {
-        Page<ArticleTagMapPO> page = new Page<>(pageNo, pageSize);
         Wrapper<ArticleTagMapPO> wrapper = Wrappers.<ArticleTagMapPO>lambdaQuery().eq(ArticleTagMapPO::getTagId, tagId);
-        Page<ArticleTagMapPO> articleTagMapPOPage = page(page, wrapper);
+        Page<ArticleTagMapPO> articleTagMapPOPage = page(new Page<>(pageNo, pageSize), wrapper);
         List<ArticleTagMapPO> records = articleTagMapPOPage.getRecords();
         List<Integer> articleIdList = records.stream().map(ArticleTagMapPO::getArticleId).collect(Collectors.toList());
         return new Pagination<>(articleTagMapPOPage.getCurrent(), articleTagMapPOPage.getSize(), articleTagMapPOPage.getTotal(), articleIdList);

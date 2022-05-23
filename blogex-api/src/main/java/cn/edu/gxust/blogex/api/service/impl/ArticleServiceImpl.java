@@ -182,21 +182,25 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticlePO> im
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int increaseSupport(Integer articleId) {
         return baseMapper.update(null, Wrappers.<ArticlePO>lambdaUpdate().eq(ArticlePO::getId, articleId).setSql("support_count = support_count+1"));
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateClassifyName(Integer classifyId) {
         return baseMapper.updateClassifyName(classifyId);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateSumComment(Integer articleId) {
         return baseMapper.updateSumComment(articleId);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateSumCommentByList(List<Integer> articleIdList) {
         return baseMapper.updateSumCommentByList(articleIdList);
     }

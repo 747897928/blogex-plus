@@ -18,7 +18,7 @@ import java.util.Random;
  */
 public class VerifyImageUtils {
 
-    private static int BOLD = 5;
+    private static final int BOLD = 5;
 
     private static final String IMG_FILE_TYPE = "jpg";
 

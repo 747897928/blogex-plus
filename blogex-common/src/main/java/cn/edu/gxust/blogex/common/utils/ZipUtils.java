@@ -86,6 +86,7 @@ public class ZipUtils {
      *
      * @param srcDirFile 要打包的文件，可以是文件夹，也可以是文件
      * @param outPutFile 压缩文件输出路径
+     * @param password   解压密码，如果为空就不带密码压缩
      */
     public static void toZipWithPassWord(File srcDirFile, File outPutFile, char[] password) throws ZipException {
         File parentFile = outPutFile.getParentFile();

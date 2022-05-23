@@ -47,6 +47,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * 评论服务实现类
+ *
  * @author zhaoyijie
  * @since 2022/3/18 23:16
  */
@@ -178,7 +180,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentPO> im
 
     @Override
     public Pagination<CommentPO> listPageParent(Integer articleId, Long pageNo, Long pageSize) {
-        Page<CommentPO> page = new Page<>(pageNo, pageSize);
         LambdaQueryWrapper<CommentPO> wrapper = Wrappers.<CommentPO>lambdaQuery();
         //查询文章评论类型的评论
         wrapper.eq(CommentPO::getPageType, PageTypeEnum.ARTICLE_COMMENT.getCode());
@@ -189,7 +190,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentPO> im
         //查询没有父id的评论，父评论
         wrapper.isNull(CommentPO::getParentId);
         wrapper.orderByDesc(CommentPO::getCreateTime);
-        Page<CommentPO> selectPage = baseMapper.selectPage(page, wrapper);
+        Page<CommentPO> selectPage = baseMapper.selectPage(new Page<>(pageNo, pageSize), wrapper);
         List<CommentPO> records = selectPage.getRecords();
         return new Pagination<>(selectPage.getCurrent(), selectPage.getSize(), selectPage.getTotal(), records);
     }
@@ -212,7 +213,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentPO> im
     public Pagination<CommentVO> listPage(CommentPageQuery query) {
         Long pageNo = query.getPageNo();
         Long pageSize = query.getPageSize();
-        Page<CommentPO> page = new Page<>(pageNo, pageSize);
         LambdaQueryWrapper<CommentPO> wrapper = Wrappers.<CommentPO>lambdaQuery();
         if (null != query.getPageType()) {
             wrapper.eq(CommentPO::getPageType, query.getPageType());
@@ -229,7 +229,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentPO> im
                     .or().like(CommentPO::getId, searchKey);
         }
         wrapper.orderByDesc(CommentPO::getCreateTime);
-        Page<CommentPO> selectPage = baseMapper.selectPage(page, wrapper);
+        Page<CommentPO> selectPage = page(new Page<>(pageNo, pageSize), wrapper);
         List<CommentPO> records = selectPage.getRecords();
         List<CommentVO> resultList = CommentConvertor.convert(records);
         return new Pagination<>(selectPage.getCurrent(), selectPage.getSize(), selectPage.getTotal(), resultList);

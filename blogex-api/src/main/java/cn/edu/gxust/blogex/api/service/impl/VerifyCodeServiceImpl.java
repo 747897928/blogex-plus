@@ -1,23 +1,25 @@
 package cn.edu.gxust.blogex.api.service.impl;
 
+import cn.edu.gxust.blogex.api.convertor.VerifyCodeConvertor;
 import cn.edu.gxust.blogex.api.dto.VerifyCodeDTO;
-import cn.edu.gxust.blogex.api.service.IVerifyCodeGen;
 import cn.edu.gxust.blogex.api.service.VerifyCodeService;
 import cn.edu.gxust.blogex.api.vo.VerifyCodeVO;
 import cn.edu.gxust.blogex.common.Constants;
+import cn.edu.gxust.blogex.common.entity.VerifyCode;
 import cn.edu.gxust.blogex.common.exception.ValidateCodeException;
 import cn.edu.gxust.blogex.common.utils.RandomUtils;
+import cn.edu.gxust.blogex.common.utils.VerifyCodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 验证码服务实现类
+ *
  * @author zhaoyijie
  * @since 2022/3/24 09:53
  */
@@ -25,9 +27,6 @@ import java.util.concurrent.TimeUnit;
 public class VerifyCodeServiceImpl implements VerifyCodeService {
 
     private final static Logger logger = LoggerFactory.getLogger(VerifyCodeServiceImpl.class);
-
-    @Resource
-    private IVerifyCodeGen iVerifyCodeGen;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -43,15 +42,12 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     @Override
     public VerifyCodeVO getVerifyCode(String randomStr) {
         try {
-            /*设置长宽*/
-            VerifyCodeVO verifyCode = iVerifyCodeGen.generate(80, 28, randomStr);
+            VerifyCode imageVerifyCode = VerifyCodeUtils.getImageVerifyCode(randomStr);
+            VerifyCodeVO verifyCode = VerifyCodeConvertor.convert(imageVerifyCode);
             int timestamp = 5 * 60 * 1000;/*五分钟过期*/
-            /*这步操作只是让前端看到过期时间，本质上不会用到这个字段*/
-            verifyCode.setExpireTime(new Date().getTime() + timestamp);
             logger.info(verifyCode.toString());
+            String uuid = verifyCode.getUuid();
             /*缓存VerifyCode*/
-            String uuid = UUID.randomUUID().toString();
-            verifyCode.setUuid(uuid);
             String cacheKey = Constants.VCODE_CACHE_KEY_PREFIX + uuid;
             stringRedisTemplate.opsForValue().set(cacheKey, verifyCode.getCode(), timestamp, TimeUnit.MILLISECONDS);
             /*返回之前清空code值*/
@@ -68,12 +64,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
         String uuid = verifyCodeDTO.getCodeUuid();
         String cacheKey = Constants.VCODE_CACHE_KEY_PREFIX + uuid;
         String cacheCode = stringRedisTemplate.opsForValue().get(cacheKey);
-        if (cacheCode == null) {
-            throw new ValidateCodeException("验证码不存在或者已经过期");
-        }
-        if (!cacheCode.equalsIgnoreCase(sourceCode)) {
-            throw new ValidateCodeException("验证码不匹配");
-        }
+        VerifyCodeUtils.verifyImageCode(sourceCode, cacheCode);
     }
 
 }

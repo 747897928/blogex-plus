@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * (BlogMusic)表服务实现类
+ * 博客应用服务实现类
  *
  * @author zhaoyijie
  * @since 2022-03-20 17:11:52
@@ -65,8 +65,8 @@ public class BlogMusicServiceImpl extends ServiceImpl<BlogMusicMapper, BlogMusic
                     .or().like(BlogMusicPO::getId, searchKey)
                     .or().like(BlogMusicPO::getMusicArtist, searchKey);
         }
-        wrapper.orderByDesc(BlogMusicPO::getCreateTime);
         wrapper.orderByAsc(BlogMusicPO::getPriority);
+        wrapper.orderByDesc(BlogMusicPO::getCreateTime);
         Page<BlogMusicPO> selectPage = baseMapper.selectPage(page, wrapper);
         List<BlogMusicPO> records = selectPage.getRecords();
         List<BlogMusicVO> resultList = BlogMusicConvertor.convert(records);

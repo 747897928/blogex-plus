@@ -4,9 +4,9 @@
 
 export LANG=en_US.UTF-8
 
-if [[ -z "$JAVA_HOME" ]]; then
-  export JAVA_HOME=/usr/local/java
-fi
+#if [[ -z "$JAVA_HOME" ]]; then
+#  export JAVA_HOME=/usr/local/java
+#fi
 SERVER_HOME=$(dirname $0)/..
 cd ${SERVER_HOME}
 SERVER_NAME="BlogExUploadApplication"
@@ -26,5 +26,5 @@ fi
 
 JAVA_OPTS="-Xms256m -Xmx1024m"
 
-nohup java ${JAVA_OPTS} -cp *.jar cn.edu.gxust.blogex.upload.BlogExUploadApplication &
+nohup /usr/local/jdk-17.0.2/bin/java ${JAVA_OPTS} -cp *.jar cn.edu.gxust.blogex.upload.BlogExUploadApplication &
 echo "$SERVER_NAME started ok"

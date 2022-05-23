@@ -3,6 +3,12 @@ server:
 blogex:
   swagger:
     show: @blogex.swagger.show@
+qiniu:
+  enable: @qiniu.enable@
+  access-key: @qiniu.accessKey@
+  secret-key: @qiniu.secretKey@
+  bucket: @qiniu.bucket@
+  domain-of-bucket: @qiniu.domain-of-bucket@
 spring:
   redis:
     database: @spring.redis.database@

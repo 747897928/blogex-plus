@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 /**
- * (BlogSetting)表服务实现类
+ * 博客配置服务实现类
  *
  * @author zhaoyijie
  * @since 2022-05-15 12:40:54

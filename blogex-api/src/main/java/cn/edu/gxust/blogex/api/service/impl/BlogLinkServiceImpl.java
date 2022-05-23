@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * (BlogLink)表服务实现类
+ * 友联服务实现类
  *
  * @author zhaoyijie
  * @since 2022-03-20 17:11:52
