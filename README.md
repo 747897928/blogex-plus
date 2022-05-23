@@ -121,7 +121,7 @@
    ```
    blogex.mail.send.admin指收到回复的时候是否发送给管理员邮件，blogex.mail.visitor.reply指游客之前评论是否发送邮件通知对方，这两个值都可以不配置，默认是false
 5. 配置完env/dev.properties后，启动mysql，redis，再将blogex-api启动
-6. 配置blogex-ui/js/main.js内的apiBaseUrl，可以根据自身前端的部署情况选择配置
+6. 配置blogex-ui/js/main.js内的apiBaseUrl，可以根据自身后端的部署情况选择配置
 7. 访问http://localhost:20010/uploads/blogex-ui/adminLogin.html
 
 8. 登录管理系统，配置系统参数和博主信息

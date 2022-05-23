@@ -55,15 +55,15 @@ const vueObject = new Vue({
                 self.location = "searchItem.html?keyWord=" + titleInput;
             }
         },
-        getPostType(articleItem){
+        getPostType(articleItem) {
             let postType = articleItem.postType;
-            if (postType===0){
+            if (postType === 0) {
                 return "原创";
-            }else if (postType===1){
+            } else if (postType === 1) {
                 return "转载";
-            }else if (postType===2){
+            } else if (postType === 2) {
                 return "翻译";
-            }else {
+            } else {
                 return "";
             }
         },
@@ -123,12 +123,14 @@ const vueObject = new Vue({
             }
         });
 
-        axiosPutFunction('/api/count/openApi/increase', null, false).then((response) => {});
+        axiosPutFunction('/api/count/openApi/increase', null, false).then((response) => {
+        });
         axiosGetFunction('/api/bloggerInfo/openApi/getBlogInfo', null, false).then((response) => {
             if (response) {
                 this.blogger = response;
                 $("#bloggerIcon").attr("href", this.blogger.avatarUrl);
                 let header1_HeaderTitle = $("#Header1_HeaderTitle");
+                document.title = this.blogger.userName + "的个人博客"
                 header1_HeaderTitle.html(header1_HeaderTitle.html() + "  " + this.blogger.userName + "的个人博客");
                 $(".github-a").attr('href', this.blogger.githubUrl);
                 $("#footer_a").html(this.blogger.recordNumber);
