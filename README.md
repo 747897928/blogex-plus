@@ -50,8 +50,6 @@
 | blogex-common | 各模块公用的依赖包 ||
 | blogex-dao | 数据库访问层 | |
 | blogex-ui | 前端 | 原生的html |
-| blogex-gateway | 网关 | 鉴权、路由、聚合swagger |
-| blogex-upload | 上传文件模块 | 存储上传的图片、音频、压缩包 |
 
 ----
 # 部分截图（界面均为响应式）
@@ -100,7 +98,7 @@
 
 1. 程序以学习为目的，请不要作其他的用途。
 2. 数据库编码：字符集：utf8mb4 -- UTF-8 Unicode（一定得是utf8mb4，不然存不了表情，mysql5.5.3后才增加utf8mb4编码），创建数据库blogex，导入sql文件夹下的blogex.sql
-3. 配置文件修改，修改env/dev.properties，下面的配置是必须需要配置的，其他诸如数据库账号密码，redis配置，nacos namepace addr根据个人需求修改对应的配置文件
+3. 配置文件修改，修改env/dev.properties，下面的配置是必须需要配置的，其他诸如数据库账号密码，redis配置根据个人需求修改对应的配置文件
    ```properties
     blogex.admin.userName=yourusername
     blogex.admin.passWord=yourpassword
@@ -123,18 +121,11 @@
    blogex.mail.visitor.reply=false
    ```
    blogex.mail.send.admin指收到回复的时候是否发送给管理员邮件，blogex.mail.visitor.reply指游客之前评论是否发送邮件通知对方，这两个值都可以不配置，默认是false
-5. 配置完env/dev.properties后，启动nacos，redis，再将blogex-api、blogex-upload、blogex-gateway依次启动
-6. 配置blogex-ui/js/main.js内的apiBaseUrl，如果是本地测试，这个不需要配置，如果部署上服务器，需要配置
+5. 配置完env/dev.properties后，启动mysql，redis，再将blogex-api启动
+6. 配置blogex-ui/js/main.js内的apiBaseUrl，可以根据自身前端的部署情况选择配置
 7. 访问http://localhost:20010/uploads/blogex-ui/adminLogin.html
 
 8. 登录管理系统，配置系统参数和博主信息
 9. 需要注意的是系统设置中接口域名这个参数用于文件存储模块本地文件上传的时候拼接路径前缀，博客的域名同样重要，在发送邮件的时候， 博客域名用于拼接文章详情页的url，根据个人网站域名配置即可。
 10. 图片上传和音乐上传可以走其他文件存储方式，但是live2d目前只能走本地文件存储方式。
 ----
-
-#### 部署说明
-1. 前端这块只需要修改blogex-ui/js/main.js内的apiBaseUrl，放在tomcat，blogex-upload的父文件夹下，github，gitee上都可以，只要apiBaseUrl配置正确，前端放在哪里都没问题，最多可能出现跨域的问题。
-2. 后端，配置完数据库，redis，nacos，博主账号密码，run起来配置博主信息，系统信息就完事了，接下来添加分类，标签就可以开始写自己的文章了。
-
-#### 其他
->nacos分支作为我实践nacos的产物，后来发现分布式太重了，对于一个个人博客不至于上分布式，所以这个分支不是主要维护的分支。如果希望部署在1核2G的服务器上请去单体分支看看。

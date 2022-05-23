@@ -3,8 +3,11 @@ server:
     context-path: /
   port: 20010
 spring:
+  application:
+    name: blogex-api
   profiles:
     include: email,blogadmin
+    active: @spring.profiles.active@
   servlet:
     multipart:
       enabled: true
