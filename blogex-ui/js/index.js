@@ -129,6 +129,7 @@ const vueObject = new Vue({
                 this.blogger = response;
                 $("#bloggerIcon").attr("href", this.blogger.avatarUrl);
                 let header1_HeaderTitle = $("#Header1_HeaderTitle");
+                document.title=this.blogger.userName + "的个人博客";
                 header1_HeaderTitle.html(header1_HeaderTitle.html() + "  " + this.blogger.userName + "的个人博客");
                 $(".github-a").attr('href', this.blogger.githubUrl);
                 $("#footer_a").html(this.blogger.recordNumber);
