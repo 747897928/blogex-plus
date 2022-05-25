@@ -208,6 +208,12 @@
                 <env>prod</env>
             </properties>
         </profile>
+        <profile>
+            <id>k8s</id>
+            <properties>
+                <env>k8s</env>
+            </properties>
+        </profile>
     </profiles>
 
     <repositories>
