@@ -14,13 +14,13 @@ public class BlogSettingVO {
     @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(value = "web网站的域名")
+    @ApiModelProperty(value = "后端接口的域名")
     private String webDomain;
 
     @ApiModelProperty(value = "是否开启邮件任务，0开启，1不开启")
     private Integer mailEnable;
 
-    @ApiModelProperty(value = "博客域名（入口前缀）用于大部分领域，比如拼接邮件回复链接")
+    @ApiModelProperty(value = "博客域名(前端域名,博客入口地址)用于大部分领域，比如拼接邮件回复链接")
     private String blogAddress;
 
     @ApiModelProperty(value = "博主邮箱，用于接受备份文件的邮箱")

@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 16/05/2022 21:27:10
+ Date: 12/06/2022 13:38:25
 */
 
 SET NAMES utf8mb4;
@@ -23,11 +23,11 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `t_article`;
 CREATE TABLE `t_article` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '文章id',
-  `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章标题',
-  `snippet` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '摘要',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章标题',
+  `snippet` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '摘要',
   `classify_id` int unsigned NOT NULL COMMENT '文章分类id',
   `classify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分类名，冗余字段，用于加快检索效率',
-  `review_img_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文章预览图',
+  `review_img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文章预览图',
   `post_type` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '发表类型,原创(0),转载(1),翻译(2)',
   `content_type` tinyint unsigned NOT NULL COMMENT '文章内容类型HTML(0),MARKDOWN(1)',
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章内容',
@@ -41,7 +41,7 @@ CREATE TABLE `t_article` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `version` bigint unsigned NOT NULL DEFAULT '0' COMMENT '版本号，乐观锁',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=401 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=407 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for t_article_tag_map
@@ -56,7 +56,7 @@ CREATE TABLE `t_article_tag_map` (
   `version` bigint unsigned NOT NULL DEFAULT '0' COMMENT '版本号，乐观锁',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_article_tag` (`article_id`,`tag_id`) USING BTREE COMMENT '文章id和标签id联合唯一'
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- ----------------------------
@@ -74,7 +74,6 @@ CREATE TABLE `t_blog_link` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
 -- ----------------------------
 -- Table structure for t_blog_music
 -- ----------------------------
@@ -90,7 +89,7 @@ CREATE TABLE `t_blog_music` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for t_blog_setting
@@ -123,9 +122,9 @@ CREATE TABLE `t_blogger_info` (
   `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
   `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '头像url',
   `signature` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '个性签名',
-  `github_url` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '博主github或者gitee的主页',
+  `github_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '博主github或者gitee的主页',
   `Record_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '(备案号)',
-  `blogger_detail` text COLLATE utf8mb4_general_ci NOT NULL COMMENT '博客的简介',
+  `blogger_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '博客的简介',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
@@ -135,7 +134,7 @@ CREATE TABLE `t_blogger_info` (
 -- Records of t_blogger_info
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_blogger_info` VALUES (1, '樱满集', 'https://xxxx/example.jpg', '生活一场持续的搏斗目标是内心的安宁毫无畏惧的给予和接受爱的能力', 'https://gitee.com/', '@xxx|桂ICP备xxxx号', '一只人畜无害的博主', '2022-03-20 17:17:39', '2022-05-10 23:05:46');
+INSERT INTO `t_blogger_info` VALUES (1, '樱满集', 'https://xxxx/example.jpg', '说点什么呢', 'https://gitee.com/', '@xxx|桂ICP备xxxx号', '一只人畜无害的博主', '2022-03-20 17:17:39', '2022-05-10 23:05:46');
 COMMIT;
 
 -- ----------------------------
@@ -144,7 +143,7 @@ COMMIT;
 DROP TABLE IF EXISTS `t_classify`;
 CREATE TABLE `t_classify` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `classify_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '分类名',
+  `classify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分类名',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日期',
   `version` bigint unsigned NOT NULL DEFAULT '0' COMMENT '版本号，乐观锁',
@@ -159,20 +158,20 @@ DROP TABLE IF EXISTS `t_comment`;
 CREATE TABLE `t_comment` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `article_id` int unsigned DEFAULT NULL COMMENT '文章id',
-  `user_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
-  `user_email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户的邮箱',
-  `user_avatar_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户头像url',
-  `comment_content` text COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论内容',
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
+  `user_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户的邮箱',
+  `user_avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户头像url',
+  `comment_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论内容',
   `parent_id` int unsigned DEFAULT NULL COMMENT '父评论id',
   `parent_tier_id` int unsigned DEFAULT NULL COMMENT '评论的父层级id(上层级的评论id，引入这个字段的目的是为了让层级最多为2)',
-  `user_ip` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户ip',
-  `user_os` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户os',
-  `user_agent` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户浏览器标识',
+  `user_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户ip',
+  `user_os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户os',
+  `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户浏览器标识',
   `browser_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户的浏览器名',
   `page_type` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '页面类型，0->文章评论，1->关于我评论，2->友联评论，默认是0文章评论',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1836 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1837 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- ----------------------------
@@ -182,8 +181,8 @@ DROP TABLE IF EXISTS `t_live2d`;
 CREATE TABLE `t_live2d` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '模型id',
   `model_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模型名',
-  `model_json_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '模型json路径',
-  `model_image_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '模型预览图片路径',
+  `model_json_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模型json路径',
+  `model_image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模型预览图片路径',
   `background_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模型背景图片图片路径',
   `x` double NOT NULL DEFAULT '0' COMMENT 'x',
   `y` double NOT NULL DEFAULT '0' COMMENT 'y',
@@ -198,8 +197,45 @@ CREATE TABLE `t_live2d` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- ----------------------------
+-- Table structure for t_permissions
+-- ----------------------------
+DROP TABLE IF EXISTS `t_permissions`;
+CREATE TABLE `t_permissions` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `resource` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `action` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_role_permission` (`role`,`resource`,`action`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of t_permissions
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for t_roles
+-- ----------------------------
+DROP TABLE IF EXISTS `t_roles`;
+CREATE TABLE `t_roles` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_user_role` (`username`,`role`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of t_roles
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_roles` VALUES (1, 'admin', 'ADMIN');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_tag
@@ -214,5 +250,25 @@ CREATE TABLE `t_tag` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `unique_tag_name` (`tag_name`) COMMENT '标签名唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Table structure for t_users
+-- ----------------------------
+DROP TABLE IF EXISTS `t_users`;
+CREATE TABLE `t_users` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
+  `password` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+  `enabled` tinyint(1) NOT NULL COMMENT '是否启用，0不启用，1启用',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_username` (`username`) USING BTREE COMMENT '用户名唯一'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of t_users
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_users` VALUES (1, 'admin', '$2a$10$mhdSzcjI2vFucPOBwfHK2.wK7KPxQIQE2Zfp0N3zyLQDhO8kEhEBG', 1);
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

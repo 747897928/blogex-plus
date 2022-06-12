@@ -39,7 +39,7 @@ public class ArticlePO extends Model<ArticlePO> {
     /**
      * 分类id
      * 
-     * @see cn.edu.gxust.blogex.dao.po.ClassifyPO#getId()
+     * @see ClassifyPO#getId()
      */
     private Integer classifyId;
 

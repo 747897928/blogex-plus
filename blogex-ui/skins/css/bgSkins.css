@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-image: url(../images/background1.jpeg);
+    background-image: url(http://file.spzgczyj.top/skins/background1.jpeg);
     background-size: cover;
     background-position: center center;
     z-index: -1;
@@ -13,27 +13,27 @@
 }
 
 .bg--1 {
-    background-image: url(../images/background2.jpeg);
+    background-image: url(http://file.spzgczyj.top/skins/background2.jpeg);
     animation-delay: 6s
 }
 
 .bg--2 {
-    background-image: url(../images/background3.jpeg);
+    background-image: url(http://file.spzgczyj.top/skins/background3.jpeg);
     animation-delay: 12s
 }
 
 .bg--3 {
-    background-image: url(../images/background4.jpeg);
+    background-image: url(http://file.spzgczyj.top/skins/background4.jpeg);
     animation-delay: 18s
 }
 
 .bg--4 {
-    background-image: url(../images/background5.jpeg);
+    background-image: url(http://file.spzgczyj.top/skins/background5.jpeg);
     animation-delay: 24s
 }
 
 .bg--5 {
-    background-image: url(../images/background6.jpeg);
+    background-image: url(http://file.spzgczyj.top/skins/background6.jpeg);
     animation-delay: 30s
 }
 

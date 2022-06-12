@@ -63,8 +63,14 @@
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:;">admin</a>
+                    <a href="javascript:;" id="username-div">admin</a>
                     <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" layuimini-content-href="page/setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" onclick="modifyPassword()" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
+                        </dd>
                         <dd>
                             <hr>
                         </dd>
@@ -127,9 +133,40 @@
 <script src="./lib/layer-v3.5.1/layer/layer.js" charset="utf-8"></script>
 <script src="./lib/axios/axios.min.js"></script>
 <script src="./js/main.js"></script>
-<script src="lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
+<script src="./lib/layui-v2.5.7/layui.js" charset="utf-8"></script>
 <script src="./js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script src="./lib/jsencrypt/jsencrypt.min.js"></script>
 <script>
+    var encrypt = new JSEncrypt();
+    var codeUuid = '';
+    if (!isEmptyStr(getUsername())){
+        document.getElementById('username-div').innerText = getUsername();
+    }
+
+    function logout(){
+        layer.msg('退出登录成功', function() {
+            let token = getToken();
+            $.ajax({
+                type: 'GET',
+                url: apiBaseUrl + "/auth/logout",
+                headers: {
+                    Authorization: token
+                },
+                success: function(response, status, xhr) {
+                    location.href = "./adminLogin.html";
+                },
+            });
+        });
+    }
+    function getvCode() {
+        axiosGetFunction('/verify/imageCode', null, false).then((response) => {
+            if (response) {
+                $('#verifyImg').attr("src", 'data:image/png;base64,' + response['base64ImgStr']);
+                codeUuid = response['uuid'];
+            }
+        });
+    }
+
     layui.use(['jquery', 'layer', 'miniAdmin', 'miniTongji'], function() {
         var $ = layui.jquery,
             layer = layui.layer,
@@ -150,21 +187,167 @@
         miniAdmin.render(options);
 
         $('.login-out').on("click", function() {
-            layer.msg('退出登录成功', function() {
-                let token = getToken();
-                $.ajax({
-                    type: 'GET',
-                    url: apiBaseUrl + "/auth/logout",
-                    headers: {
-                        Authorization: token
-                    },
-                    success: function(response, status, xhr) {
-                        location.href = "./adminLogin.html";
-                    },
-                });
-            });
+            logout();
         });
     });
+
+    function modifyPassword(){
+        layer.alert(
+            '<div id="modify-password-div">\n' +
+            '<div class="layui-col-md12">\n' +
+            '                <div class="layui-card">\n' +
+            '                    <div class="layui-card-body">\n' +
+            '                        <form class="layui-form layui-form-pane" action="" onsubmit="return false">\n' +
+            '                            <div class="layui-form-item">\n' +
+            '                                <label class="layui-form-label">旧密码</label>\n' +
+            '                                <div class="layui-input-block">\n' +
+            '                                    <input type="password" name="oldPassword" required\n' +
+            '                                           lay-verify="required" value="" placeholder="旧密码" autocomplete="off"\n' +
+            '                                           class="layui-input" id="oldPassword">\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </form>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>' +
+            '<div class="layui-col-md12">\n' +
+            '                <div class="layui-card">\n' +
+            '                    <div class="layui-card-body">\n' +
+            '                        <form class="layui-form layui-form-pane" action="" onsubmit="return false">\n' +
+            '                            <div class="layui-form-item">\n' +
+            '                                <label class="layui-form-label">新密码</label>\n' +
+            '                                <div class="layui-input-block">\n' +
+            '                                    <input type="password" name="newPassword" required\n' +
+            '                                           lay-verify="required" value="" placeholder="新密码" autocomplete="off"\n' +
+            '                                           class="layui-input" id="newPassword">\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </form>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>' +
+            '<div class="layui-col-md12">\n' +
+            '                <div class="layui-card">\n' +
+            '                    <div class="layui-card-body">\n' +
+            '                        <form class="layui-form layui-form-pane" action="" onsubmit="return false">\n' +
+            '                            <div class="layui-form-item">\n' +
+            '                                <label class="layui-form-label">确认密码</label>\n' +
+            '                                <div class="layui-input-block">\n' +
+            '                                    <input type="password" name="oldPassword" required\n' +
+            '                                           lay-verify="required" value="" placeholder="再次确认密码" autocomplete="off"\n' +
+            '                                           class="layui-input" id="newPasswordTwo">\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </form>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>' +
+            '<div class="layui-col-md12">\n' +
+            '                <div class="layui-card">\n' +
+            '                    <div class="layui-card-body">\n' +
+            '                        <img id="verifyImg" style="cursor: pointer;" src="./images/verifyCodeImg.png" onclick="getvCode()" alt="点击获取验证码"/>'+
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>' +
+            '<div class="layui-col-md12">\n' +
+            '                <div class="layui-card">\n' +
+            '                    <div class="layui-card-body">\n' +
+            '                        <form class="layui-form layui-form-pane" action="" onsubmit="return false">\n' +
+            '                            <div class="layui-form-item">\n' +
+            '                                <label class="layui-form-label">验证码</label>\n' +
+            '                                <div class="layui-input-block">\n' +
+            '                                <input id="code" class="layui-input" required lay-verify="required" placeholder="验证码" value="" type="text"/>'+
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </form>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>' +
+            '    </div>', {
+                skin: "layui-layer-molv",
+                closeBtn: 1,
+                anim: 1,
+                title: '修改密码',
+                success: function () {
+                    /*document.onkeypress = function (event) {
+                        e = event ? event : (window.event ? window.event : null);
+                        var currKey = 0;
+                        currKey = e.keyCode || e.which || e.charCode;
+                        if (currKey == 13) {
+                            $(".layui-layer-btn0").trigger("click");
+                        }
+                    };*/
+                    /**
+                     * document.addEventListener('keydown',&nbsp;fun);document.removeEventListener('keydown',&nbsp;fun);//移除监听事件的回调函数
+                     * removeEventListener() 方法用于移除由 addEventListener() 方法添加的事件句柄。
+                     * 注意： 如果要移除事件句柄，addEventListener() 的执行函数必须使用外部函数，如上实例所示 (myFunction)。
+                     * 匿名函数，类似 "document.removeEventListener("event", function(){ myScript });" 该事件是无法移除的。
+                     */
+                },
+                end: function () {
+                    /*document.onkeypress = undefined;*/
+                },
+                yes: function (codeLayer) {
+                    let oldPassword = $("#oldPassword").val();
+                    let verifyCode = $("#code").val();
+                    if (isEmptyStr(oldPassword)) {
+                        layer.alert('旧密码不能为空', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                        return false;
+                    }
+                    let newPassword = $("#newPassword").val();
+                    if (isEmptyStr(newPassword)) {
+                        layer.alert('新不能为空', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                        return false;
+                    }
+                    let newPasswordTwo = $("#newPasswordTwo").val();
+                    if (isEmptyStr(newPasswordTwo)) {
+                        layer.alert('确认密码不能为空', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                        return false;
+                    }
+
+                    if (newPassword !== newPasswordTwo) {
+                        layer.alert('两次输入的密码不一致', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                        return false;
+                    }
+
+                    if (oldPassword === newPassword) {
+                        layer.alert('新旧密码不能一致', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                        return false;
+                    }
+
+                    if (isEmptyStr(codeUuid)){
+                        layer.alert('验证码为空', {icon: 2, skin: 'layui-layer-molv', closeBtn: 0, anim: 6});
+                        return false;
+                    }
+                    axiosGetFunction('/api/rsa/openApi/getRsaPublicKey', null, false).then((response) => {
+                        if (response) {
+                            encrypt.setPublicKey(response);
+                            let queryData = {
+                                "newPassword": encrypt.encrypt(newPassword),
+                                "oldPassword": encrypt.encrypt(oldPassword),
+                                "codeUuid" : codeUuid,
+                                "verifyCode": verifyCode,
+                            };
+                            axiosPutFunction('/users/authApi/updatePassword', queryData, true).then((responseData) => {
+                                if (responseData) {
+                                    codeUuid = '';
+                                    layer.close(codeLayer);
+                                    layer.alert(responseData, {icon: 1, skin: 'layui-layer-molv', closeBtn: 0, anim: 4}, function () {
+                                        layer.closeAll();
+                                        logout();
+                                    });
+                                }
+                            }).catch(function (err) {
+                                layer.alert("修改密码失败:" + err, function () {});
+                                return false;
+                            });
+                        }
+                    });
+                }
+            },
+        );
+    }
+
 </script>
 </body>
 </html>

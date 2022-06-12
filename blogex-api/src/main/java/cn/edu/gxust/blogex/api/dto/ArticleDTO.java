@@ -37,7 +37,7 @@ public class ArticleDTO {
     private Integer classifyId;
 
     /**
-     * @see cn.edu.gxust.blogex.api.dto.TagDTO#getId()
+     * @see TagDTO#getId()
      */
     @ApiModelProperty(value = "标签id的集合", name = "tagIdList", required = true)
     private List<Integer> tagIdList;

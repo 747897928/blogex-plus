@@ -64,23 +64,8 @@
       "description": "过期时间，当前时间加该时间，单位秒"
     },
     {
-      "name": "blogex.admin.role",
-      "type": "java.lang.String",
-      "description": "博客管理员的角色."
-    },
-    {
-      "name": "blogex.admin.userName",
-      "type": "java.lang.String",
-      "description": "你的博客管理员账号."
-    },
-    {
       "name": "blogex.admin.permissionList",
       "type": "java.lang.String",
       "description": "白名单."
-    },
-    {
-      "name": "blogex.admin.passWord",
-      "type": "java.lang.String",
-      "description": "你的博客管理员密码."
     }
   ] }

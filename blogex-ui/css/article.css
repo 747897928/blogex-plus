@@ -5,7 +5,7 @@
     overflow: hidden;
 }
 #divArticleContent img:hover{
-    cursor: url(./images/big.cur), auto !important;
+    /*cursor: url(./images/big.cur), auto !important;*/
 }
 .word-count-div {
     position: absolute;

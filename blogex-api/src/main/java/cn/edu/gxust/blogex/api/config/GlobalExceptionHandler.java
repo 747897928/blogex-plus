@@ -12,6 +12,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -91,6 +92,13 @@ public class GlobalExceptionHandler {
     public Result<String> badCredentialsExceptionHandler(BadCredentialsException e) {
         logger.error("权限认证不通过: {}", e.getMessage());
         return Result.error(ErrorCode.AUTHENTICATE_ERROR.getCode(), e.getMessage() + ",the permission authentication fails");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    public Result<String> usernameNotFoundExceptionHandler(UsernameNotFoundException e) {
+        logger.error("用户未找到: {}", e.getMessage());
+        return Result.error(ErrorCode.CUSTOM_ERROR.getCode(), e.getMessage());
     }
 
 }

@@ -149,7 +149,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticlePO> im
         Long pageSize = query.getPageSize();
         if (null != query.getTagId()) {
             Pagination<Integer> pagination = articleTagMapService.listPageArticleIdByTagId(query.getTagId(), query.getPageNo(), query.getPageSize());
-            List<ArticlePO> articlePOList = baseMapper.listQuery(pagination.getList(),
+            List<Integer> paginationList = pagination.getList();
+            if (CollectionUtils.isEmpty(paginationList)) {
+                return new Pagination<>(pagination.getPageNo(), pagination.getPageSize(), 0L, new ArrayList<>());
+            }
+            List<ArticlePO> articlePOList = baseMapper.listQuery(paginationList,
                     query.getSearchKey(), query.getClassifyId(),
                     query.getContentType(), query.getArticleStatus(),
                     query.getCommentStatus(), query.getPostType(),

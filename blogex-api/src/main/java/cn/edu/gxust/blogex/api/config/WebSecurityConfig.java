@@ -76,10 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().configurationSource(corsConfigurationSource()); /*开启跨域*/
         http.headers().frameOptions().disable();
         http.csrf().disable();
-        /*在验证账号和密码之前先验证登录验证码是否正确*/
         http.httpBasic().disable().logout().disable().rememberMe().disable();
-        /*限制登录数量为1，maxSessionsPreventsLogin表示是否保留已经登录的用户；为true，
-        新用户无法登录；为 false，旧用户被踢出*/
+        /*在验证账号和密码之前先验证登录验证码是否正确*/
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore(new CustomTokenVerifyFilter(stringRedisTemplate), UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler).authenticationEntryPoint(new BasicAuthenticationEntryPoint() {

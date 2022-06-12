@@ -266,6 +266,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentPO> im
                 }
             }
         }
+        //除管理员平台内可看，其他对外接口，剔除ip字段保护个人隐私
+        eliminateIpField(resultList);
         return new Pagination<>(pagination.getPageNo(), pagination.getPageSize(), pagination.getTotal(), resultList);
     }
 
@@ -300,6 +302,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentPO> im
                 }
             }
         }
+        /*除管理员平台内可看，其他对外接口，剔除ip字段保护个人隐私*/
+        eliminateIpField(resultList);
         return new Pagination<>(pagination.getPageNo(), pagination.getPageSize(), pagination.getTotal(), resultList);
     }
 
@@ -336,5 +340,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentPO> im
             throw new CommentNotFoundException(parentId);
         }
         return parentComment.getParentTierId();
+    }
+
+    /**
+     * 剔除ip字段保护个人隐私
+     */
+    public void eliminateIpField(List<CommentVO> resultList) {
+        if (!CollectionUtils.isEmpty(resultList)) {
+            for (CommentVO commentVO : resultList) {
+                commentVO.setUserIp(null);
+                List<CommentVO> childList = commentVO.getChildList();
+                eliminateIpField(childList);
+            }
+        }
     }
 }

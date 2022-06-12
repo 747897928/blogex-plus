@@ -3,10 +3,9 @@ package cn.edu.gxust.blogex.api.service.impl;
 import cn.edu.gxust.blogex.api.dto.AuthDTO;
 import cn.edu.gxust.blogex.api.entity.BlogUser;
 import cn.edu.gxust.blogex.api.service.AuthService;
+import cn.edu.gxust.blogex.api.service.RsaService;
 import cn.edu.gxust.blogex.api.service.VerifyCodeService;
 import cn.edu.gxust.blogex.common.Constants;
-import cn.edu.gxust.blogex.common.enums.ErrorCode;
-import cn.edu.gxust.blogex.common.exception.BlogException;
 import cn.edu.gxust.blogex.common.utils.JSONUtils;
 import cn.edu.gxust.blogex.common.utils.StringUtils;
 import org.slf4j.Logger;
@@ -49,20 +48,25 @@ public class AuthServiceImpl implements AuthService {
     @Resource
     private AuthenticationManager authenticationManager;
 
+    @Resource
+    private RsaService rsaService;
+
     /**
      * 验证身份，authenticationManager会调用UserDetailsService里的loadUserByUsername
      * 在loadUserByUsername方法里查询数据库拿到账号密码，然后与这里的UsernamePasswordAuthenticationToken里的账号密码配对，
      * 如果配对成功则认证通过，反之鉴权失败
      *
-     * @see cn.edu.gxust.blogex.api.service.impl.UserDetailsServiceImpl#loadUserByUsername (String)
+     * @see UserDetailsServiceImpl#loadUserByUsername (String)
      */
     public BlogUser login(AuthDTO authDTO) {
         String verifyCode = authDTO.getVerifyCode();
         String codeUuid = authDTO.getCodeUuid();
-        //校验滑动验证码的有效性
+        /*验滑动验证码的有效性*/
         verifyCodeService.validateLoginCode(codeUuid, verifyCode);
         String username = authDTO.getUsername();
+        username = rsaService.decrypt(username);
         String passWord = authDTO.getPassword();
+        passWord = rsaService.decrypt(passWord);
         UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, passWord);
         Authentication authentication = authenticationManager.authenticate(passwordAuthenticationToken);
         SecurityContextHolder.getContext().setAuthentication(passwordAuthenticationToken);
@@ -92,6 +96,6 @@ public class AuthServiceImpl implements AuthService {
                 return "logout success!";
             }
         }
-        throw new BlogException(ErrorCode.SERVER_ERROR.getCode(), "logout fail,destroying the token failed!");
+        return "logout fail,destroying the token failed!";
     }
 }

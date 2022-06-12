@@ -20,6 +20,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("uploads/blogex-ui/**")
                 .addResourceLocations("file:blogex-ui/");
+
+        registry.addResourceHandler("sitemap_index/**")
+                .addResourceLocations("file:sitemap_index/");
     }
 
     /**

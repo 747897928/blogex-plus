@@ -71,7 +71,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "条件查询")
-    @PostMapping(value = "/openApi/listPage")
+    @PostMapping(value = "/authApi/listPage")
     public Result<Pagination<CommentVO>> listPage(@RequestBody CommentPageQuery query) {
         return Result.success(commentService.listPage(query));
     }

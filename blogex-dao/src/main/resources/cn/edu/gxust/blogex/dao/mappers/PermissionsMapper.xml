@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.gxust.blogex.dao.mappers.PermissionsMapper">
+
+    <resultMap type="cn.edu.gxust.blogex.dao.po.PermissionsPO" id="PermissionsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="resource" column="resource" jdbcType="VARCHAR"/>
+        <result property="action" column="action" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+</mapper>
+

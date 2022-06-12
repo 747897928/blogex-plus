@@ -41,8 +41,7 @@ const vueObject = new Vue({
         codeUuid: "",
     },
     mounted() {
-        axiosPutFunction('/api/count/openApi/increase', null, false).then((response) => {
-        });
+        axiosPutFunction('/api/count/openApi/increase', null, false).then((response) => {});
         this.getPageCommentList();
         axiosGetFunction('/api/bloggerInfo/openApi/getBlogInfo', null, false).then((response) => {
             if (response) {

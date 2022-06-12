@@ -3,9 +3,6 @@ blogex:
     validate:
       time: 86400
   admin:
-    role: @blogex.admin.role@
-    userName: @blogex.admin.userName@ #你的博客管理员账号
-    passWord: @blogex.admin.passWord@ #你的博客管理员密码
     permissionList:
       - /auth/login
       - /verify/sliderCode
@@ -20,4 +17,5 @@ blogex:
       - /**/v2/api-docs
       - /uploads/uploadsFile/**
       - /uploads/blogex-ui/**
+      - /sitemap_index/**
 
