@@ -25,6 +25,10 @@
 6. kubernetes部署方式目前还未测通.....
 ----
 
+# 演示地址
+http://spzgczyj.top/blog/index.html
+
+----
 # 功能简介
 
 - **多种文件存储**：七牛云、本地存储。
@@ -41,10 +45,6 @@
 
 ----
 
-#演示地址
-http://spzgczyj.top/blog/index.html
-
-----
 # 模块划分
 
 | 模块  | 功能描述 | 备注 |
@@ -101,11 +101,7 @@ http://spzgczyj.top/blog/index.html
 
 1. 程序以学习为目的，请不要作其他的用途。
 2. 数据库编码：字符集：utf8mb4 -- UTF-8 Unicode（一定得是utf8mb4，不然存不了表情，mysql5.5.3后才增加utf8mb4编码），创建数据库blogex，导入sql文件夹下的blogex.sql
-3. 配置文件修改，修改env/dev.properties，下面的配置是必须需要配置的，其他诸如数据库账号密码，redis配置根据个人需求修改对应的配置文件
-   ```properties
-    blogex.admin.userName=yourusername
-    blogex.admin.passWord=yourpassword
-   ```
+3. 配置文件修改，修改env/dev.properties，修改数据库账号密码和redis配置根据个人需求修改对应的配置文件
    如果需要开启七牛云存储的配置，请配置以下参数：
    ```properties
    qiniu.enable=true
@@ -124,11 +120,15 @@ http://spzgczyj.top/blog/index.html
    blogex.mail.visitor.reply=false
    ```
    blogex.mail.send.admin指收到回复的时候是否发送给管理员邮件，blogex.mail.visitor.reply指游客之前评论是否发送邮件通知对方，这两个值都可以不配置，默认是false
-5. 配置完env/dev.properties后，启动mysql，redis，再将blogex-api启动
-6. 配置blogex-ui/js/main.js内的apiBaseUrl，可以根据自身后端的部署情况选择配置
-7. 访问http://localhost:20010/uploads/blogex-ui/adminLogin.html
-
-8. 登录管理系统，配置系统参数和博主信息
-9. 需要注意的是系统设置中接口域名这个参数用于文件存储模块本地文件上传的时候拼接路径前缀，博客的域名同样重要，在发送邮件的时候， 博客域名用于拼接文章详情页的url，根据个人网站域名配置即可。
-10. 图片上传和音乐上传可以走其他文件存储方式，但是live2d目前只能走本地文件存储方式。
+4. 配置完env/dev.properties后，启动mysql，redis，再将blogex-api启动
+5. 配置blogex-ui/js/main.js内的apiBaseUrl，可以根据自身后端的部署情况选择配置
+6. 访问http://localhost:20010/uploads/blogex-ui/adminLogin.html
+7. 登录管理系统，配置系统参数和博主信息，默认账号是admin，密码是123456，登录系统后点击这里修改账号和密码，修改的过程需要验证图片验证码
+![](./images/17.png)
+![](./images/18.png)
+修改账号和密码，登录的过程用到了非对称加密，理论上是安全的，如果有不足之处希望各位帮忙指出。 目前暂不支持修改用户名，如果需要修改用户名，请手动修改t_users表及t_roles的数据
+8. 系统配置
+![](./images/19.png)
+系统设置中接口域名(后端接口地址域名)这个参数用于文件存储模块本地文件上传的时候拼接路径前缀，如图后端服务接口的前缀是http://localhost:20010/，博客的域名(前端域名)同样重要，在发送邮件的时候， 博客域名用于拼接文章详情页的url，如图，前端域名是http://localhost:20010/uploads/blogex-ui，根据个人网站域名配置即可。 
+11. 图片上传和音乐上传可以走其他文件存储方式，但是live2d目前只能走本地文件存储方式，当然上传live2d到七牛云或者阿里云oss，然后填写live2d的url也可。
 ----
